@@ -19,8 +19,7 @@ type PositionedNode struct {
 
 	renderedName *text.Text
 
-	x float64
-	y float64
+	pos pixel.Vec
 }
 
 func (n PositionedNode) ID() int {
@@ -43,10 +42,15 @@ func NewMapGraph(window *pixelgl.Window, draw *imdraw.IMDraw, atlas *text.Atlas,
 }
 
 func (g *MapGraph) NewPositionedNode(name string, x float64, y float64) *PositionedNode {
-	renderedName := text.New(pixel.V(200, 200), g.atlas)
+	renderedName := text.New(pixel.V(x, y), g.atlas)
 	renderedName.Color = colornames.Black
-	fmt.Fprintln(renderedName, name)
-	return &PositionedNode{g.UndirectedGraph.NewNodeID(), name, renderedName, x, y}
+	fmt.Fprint(renderedName, name)
+	renderedName.Orig = renderedName.Orig.Sub(renderedName.Dot.Sub(renderedName.Orig).ScaledXY(pixel.V(0.5, 1)))
+	fmt.Fprintln(renderedName)
+	renderedName.Orig = renderedName.Orig.Add(renderedName.Dot.Sub(renderedName.Orig).ScaledXY(pixel.V(0, 0.25)))
+	renderedName.Clear()
+	fmt.Fprint(renderedName, name)
+	return &PositionedNode{g.UndirectedGraph.NewNodeID(), name, renderedName, pixel.V(x, y)}
 }
 
 func (g *MapGraph) AddNode(n graph.Node) {
@@ -67,12 +71,19 @@ func (g *MapGraph) Nodes() []*PositionedNode {
 func (g *MapGraph) Draw() {
 	if g.changed {
 		g.draw.Reset()
-		g.draw.Color = pixel.RGB(0, 0, 0)
+		g.draw.Color = colornames.Lightslategray
 		for _, n := range g.Nodes() {
-			g.draw.Push(pixel.V(n.x, n.y))
-		}
+			g.draw.Push(n.pos)
+			g.draw.Circle(20, 0)
 
-		g.draw.Circle(20, 0)
+			for _, t := range g.From(n) {
+				t := t.(*PositionedNode)
+				g.draw.Push(n.pos)
+				g.draw.Push(t.pos)
+				w, _ := g.Weight(n, t)
+				g.draw.Line(w)
+			}
+		}
 
 		g.draw.Push(pixel.V(0, 0))
 		g.draw.Push(pixel.V(1000, 1000))
@@ -80,6 +91,8 @@ func (g *MapGraph) Draw() {
 
 		g.changed = false
 	}
+
+	g.draw.Draw(g.window)
 
 	for _, n := range g.Nodes() {
 		n.renderedName.Draw(g.window, pixel.IM)
