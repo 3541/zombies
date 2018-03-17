@@ -2,14 +2,13 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"time"
 
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/imdraw"
 	"github.com/faiface/pixel/pixelgl"
 	"github.com/faiface/pixel/text"
-
-	"github.com/gonum/graph/simple"
 
 	"golang.org/x/image/colornames"
 	"golang.org/x/image/font/basicfont"
@@ -40,11 +39,29 @@ func entry() {
 	draw.Color = colornames.Black
 	g := vis.NewMapGraph(window, draw, text.NewAtlas(basicfont.Face7x13, text.ASCII), pixel.R(0, 0, 1000, 1000))
 
-	n1 := g.NewPositionedNode("1", 500, 500)
+	/*n1 := g.NewPositionedNode("BUILDING 1", 500, 500)
 	g.AddNode(n1)
-	n2 := g.NewPositionedNode("2", 800, 600)
+	n2 := g.NewPositionedNode("BUILDING 2", 800, 600)
 	g.AddNode(n2)
-	g.SetEdge(simple.Edge{n1, n2, 3})
+	g.AddEdge(n1, n2, 3)
+
+	s, err := g.Serialize()
+	if err != nil {
+		panic(err)
+	}
+
+	err = ioutil.WriteFile("./test_map.json", s, 0666)
+	if err != nil {
+		panic(err)
+	}*/
+	s, _ := ioutil.ReadFile("./test_map.json")
+
+	err = g.Deserialize(s)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println("deserialized")
 
 	frames := 0
 	timer := time.Tick(time.Second)
@@ -108,7 +125,7 @@ func entry() {
 		select {
 		case <-timer:
 			logText.Clear()
-			fmt.Fprintf(logText, "%dfps", frames)
+			fmt.Fprintf(logText, "%d", frames)
 			frames = 0
 		default:
 		}
