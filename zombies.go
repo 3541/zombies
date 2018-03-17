@@ -22,9 +22,12 @@ const (
 )
 
 func entry() {
+	monitor := pixelgl.PrimaryMonitor()
+	width, height := monitor.Size()
+
 	config := pixelgl.WindowConfig{
 		Title:  "Apocalypse Simulator 2018",
-		Bounds: pixel.R(0, 0, 1920, 1080),
+		Bounds: pixel.R(0, 0, width, height),
 		//VSync:  true,
 	}
 
@@ -35,25 +38,35 @@ func entry() {
 
 	window.SetSmooth(true)
 
+	// Enable fullscreen
+	window.SetMonitor(monitor)
+
+	// Start the map editor when running a debug build (see edit_release.go and edit_debug.go)
+	editInit(window)
+
+	// Shape drawing interface
 	draw := imdraw.New(nil)
 	draw.Color = colornames.Black
+
 	g := vis.NewMapGraph(window, draw, text.NewAtlas(basicfont.Face7x13, text.ASCII), pixel.R(0, 0, 1000, 1000))
 
-	/*n1 := g.NewPositionedNode("BUILDING 1", 500, 500)
-	g.AddNode(n1)
-	n2 := g.NewPositionedNode("BUILDING 2", 800, 600)
-	g.AddNode(n2)
-	g.AddEdge(n1, n2, 3)
+	/*	n1 := g.NewPositionedNode("BUILDING 1", 500, 500)
+		g.AddNode(n1)
+		n2 := g.NewPositionedNode("BUILDING 2", 800, 600)
+		g.AddNode(n2)
+		g.AddEdge(n1, n2, 3)
 
-	s, err := g.Serialize()
-	if err != nil {
-		panic(err)
-	}
+		s, err := g.Serialize()
+		if err != nil {
+			panic(err)
+		}
 
-	err = ioutil.WriteFile("./test_map.json", s, 0666)
-	if err != nil {
-		panic(err)
-	}*/
+		err = ioutil.WriteFile("./test_map.json", s, 0666)
+		if err != nil {
+			panic(err)
+		}*/
+
+	// Load and parse the map
 	s, _ := ioutil.ReadFile("./test_map.json")
 
 	err = g.Deserialize(s)
@@ -61,11 +74,11 @@ func entry() {
 		panic(err)
 	}
 
-	fmt.Println("deserialized")
-
+	// To track framerate
 	frames := 0
 	timer := time.Tick(time.Second)
 
+	// Used to print framerate to screen
 	logAtlas := text.NewAtlas(basicfont.Face7x13, text.ASCII)
 	logText := text.New(pixel.V(10, 10), logAtlas)
 	logText.Color = colornames.Black
@@ -73,6 +86,7 @@ func entry() {
 	cameraPosition := window.Bounds().Center()
 	cameraZoom := 1.0
 
+	// Track time since last frame for constant-speed movements, even without VSync
 	lastFrame := time.Now()
 
 	for !window.Closed() {
@@ -107,6 +121,7 @@ func entry() {
 			cameraZoom = 0
 		}
 
+		// Scale viewport to match height of map space
 		viewportScale := window.Bounds().H() / g.Bounds.H()
 		camera := pixel.IM.Scaled(window.Bounds().Min, viewportScale).Moved(window.Bounds().Center().Sub(cameraPosition)).Scaled(window.Bounds().Center(), cameraZoom)
 		window.SetMatrix(camera)
@@ -119,8 +134,12 @@ func entry() {
 		window.SetMatrix(pixel.IM)
 		logText.Draw(window, pixel.IM)
 
+		// Do map editor things, if in a debug build
+		editGraph(window, g, camera)
+
 		window.Update()
 
+		// Every second, display the frames rendered in that second
 		frames++
 		select {
 		case <-timer:

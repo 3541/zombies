@@ -1,3 +1,5 @@
+// Graph and graph rendering
+
 package vis
 
 import (
@@ -18,15 +20,19 @@ type PositionedNode struct {
 	Id   int
 	Name string
 
+	// Store the name pre-rendered
 	renderedName *text.Text
 
 	Pos pixel.Vec
 }
 
+// Necessary to implement graph.Node
 func (n PositionedNode) ID() int {
 	return n.Id
 }
 
+// Yes, this is awful, I know.
+// Render the text multiple times in order to reposition to center on the vertex.
 func (n *PositionedNode) RenderName(atlas *text.Atlas) {
 	n.renderedName = text.New(n.Pos, atlas)
 	n.renderedName.Color = colornames.Black
@@ -38,6 +44,7 @@ func (n *PositionedNode) RenderName(atlas *text.Atlas) {
 	fmt.Fprint(n.renderedName, n.Name)
 }
 
+// Extends simple.Undirected graph, adding handles to graphics things
 type MapGraph struct {
 	*simple.UndirectedGraph
 
@@ -59,16 +66,30 @@ func (g *MapGraph) NewPositionedNode(name string, x float64, y float64) *Positio
 	return n
 }
 
+// Allows re-rendering only when the graph is actually changed
 func (g *MapGraph) AddNode(n graph.Node) {
 	g.UndirectedGraph.AddNode(n)
 	g.changed = true
 }
 
+// Returns vertices, asserting they are all PositionedNodes
 func (g *MapGraph) Nodes() []*PositionedNode {
 	nodes := g.UndirectedGraph.Nodes()
 	ret := make([]*PositionedNode, len(nodes))
 	for i, n := range nodes {
 		ret[i] = n.(*PositionedNode)
+	}
+
+	return ret
+}
+
+// Returns edges, asserting that they are all concretely typed
+// Necessary for nice serialization
+func (g *MapGraph) Edges() []simple.Edge {
+	edges := g.UndirectedGraph.Edges()
+	ret := make([]simple.Edge, len(edges))
+	for i, n := range edges {
+		ret[i] = n.(simple.Edge)
 	}
 
 	return ret
@@ -83,9 +104,11 @@ func (g *MapGraph) Draw() {
 		g.draw.Reset()
 		g.draw.Color = colornames.Lightslategray
 		for _, n := range g.Nodes() {
+			// Draw vertex
 			g.draw.Push(n.Pos)
 			g.draw.Circle(20, 0)
 
+			// Draw edges from that vertex
 			for _, t := range g.From(n) {
 				t := t.(*PositionedNode)
 				g.draw.Push(n.Pos)
@@ -104,71 +127,81 @@ func (g *MapGraph) Draw() {
 
 	g.draw.Draw(g.window)
 
+	// Draw vertex names
 	for _, n := range g.Nodes() {
 		n.renderedName.Draw(g.window, pixel.IM)
 	}
 }
 
+// Go's JSON library and type system conspire to make
+// it impossible to serialize anything unexported
+// as well as impossible to deserialize anything
+// to a field without a concrete type.
+// Hence, these monstrosities.
+
+// An intermediate type to allow easier serialization
+// and deserialization of the embedded UndirectedGraph.
+type intermediateUndirectedGraph struct {
+	Nodes []*PositionedNode
+	Edges []simple.Edge
+}
+
 func (g *MapGraph) Serialize() ([]byte, error) {
-	return json.Marshal(g.UndirectedGraph)
+	return json.Marshal(struct {
+		G *MapGraph
+		U intermediateUndirectedGraph
+	}{g, intermediateUndirectedGraph{g.Nodes(), g.Edges()}})
 }
 
 func (g *MapGraph) Deserialize(data []byte) error {
-	err := json.Unmarshal(data, &g.UndirectedGraph)
+	p := make(map[string]json.RawMessage)
+	err := json.Unmarshal(data, &p)
 	if err != nil {
 		return err
 	}
 
-	d := make(map[string]*json.RawMessage)
-	err = json.Unmarshal(data, &d)
+	err = json.Unmarshal(p["G"], &g)
 	if err != nil {
 		return err
 	}
 
-	serNodes := make(map[int]*json.RawMessage)
-	err = json.Unmarshal(*d["Nodes"], &serNodes)
+	iug := new(intermediateUndirectedGraph)
+	serIug := make(map[string]json.RawMessage)
+	err = json.Unmarshal(p["U"], &serIug)
 	if err != nil {
 		return err
 	}
 
-	for _, v := range serNodes {
-		n := new(PositionedNode)
-		err = json.Unmarshal(*v, &n)
+	err = json.Unmarshal(serIug["Nodes"], &iug.Nodes)
+	if err != nil {
+		return err
+	}
+
+	for _, v := range iug.Nodes {
+		v.RenderName(g.atlas)
+		g.AddNode(v)
+	}
+
+	serEdges := make([]json.RawMessage, len(iug.Nodes)*2)
+	err = json.Unmarshal(serIug["Edges"], &serEdges)
+	if err != nil {
+		return err
+	}
+
+	for _, se := range serEdges {
+		em := make(map[string]float64)
+		err = json.Unmarshal(se, &em)
 		if err != nil {
 			return err
 		}
-		n.RenderName(g.atlas)
-		g.AddNode(n)
-	}
 
-	serEdges := make(map[int]*json.RawMessage)
-	err = json.Unmarshal(*d["Edges"], &serEdges)
-	if err != nil {
-		return err
-	}
+		e := new(simple.Edge)
+		e.F = simple.Node(em["F"])
+		e.T = simple.Node(em["T"])
+		e.W = em["W"]
 
-	for _, v := range serEdges {
-		se := make(map[string]*json.RawMessage)
-		err = json.Unmarshal(*v, &se)
-		if err != nil {
-			return err
-		}
-
-		for _, v := range se {
-			e := new(simple.Edge)
-			sv := make(map[string]float64)
-			err = json.Unmarshal(*v, &sv)
-			if err != nil {
-				return err
-			}
-
-			e.F = simple.Node(sv["F"])
-			e.T = simple.Node(sv["T"])
-			e.W = sv["W"]
-
-			if !g.HasEdgeBetween(e.F, e.T) {
-				g.SetEdge(e)
-			}
+		if !g.HasEdgeBetween(e.F, e.T) {
+			g.SetEdge(e)
 		}
 	}
 
