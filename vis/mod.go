@@ -85,11 +85,11 @@ func (g *MapGraph) Nodes() []*PositionedNode {
 
 // Returns edges, asserting that they are all concretely typed
 // Necessary for nice serialization
-func (g *MapGraph) Edges() []simple.Edge {
+func (g *MapGraph) Edges() []*simple.Edge {
 	edges := g.UndirectedGraph.Edges()
-	ret := make([]simple.Edge, len(edges))
+	ret := make([]*simple.Edge, len(edges))
 	for i, n := range edges {
-		ret[i] = n.(simple.Edge)
+		ret[i] = n.(*simple.Edge)
 	}
 
 	return ret
@@ -143,7 +143,7 @@ func (g *MapGraph) Draw() {
 // and deserialization of the embedded UndirectedGraph.
 type intermediateUndirectedGraph struct {
 	Nodes []*PositionedNode
-	Edges []simple.Edge
+	Edges []*simple.Edge
 }
 
 func (g *MapGraph) Serialize() ([]byte, error) {

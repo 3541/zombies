@@ -41,9 +41,6 @@ func entry() {
 	// Enable fullscreen
 	window.SetMonitor(monitor)
 
-	// Start the map editor when running a debug build (see edit_release.go and edit_debug.go)
-	editInit(window)
-
 	// Shape drawing interface
 	draw := imdraw.New(nil)
 	draw.Color = colornames.Black
@@ -73,6 +70,9 @@ func entry() {
 	if err != nil {
 		panic(err)
 	}
+
+	// Start the map editor when running a debug build (see edit_release.go and edit_debug.go)
+	editInit(window, g)
 
 	// To track framerate
 	frames := 0
@@ -135,7 +135,7 @@ func entry() {
 		logText.Draw(window, pixel.IM)
 
 		// Do map editor things, if in a debug build
-		editGraph(window, g, camera)
+		editGraph(camera)
 
 		window.Update()
 
@@ -149,6 +149,7 @@ func entry() {
 		default:
 		}
 	}
+	editEnd(window, g)
 }
 
 func main() {

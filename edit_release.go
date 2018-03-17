@@ -15,3 +15,5 @@ func editGraph(window *pixelgl.Window, g *vis.MapGraph) {
 
 func editInit(window *pixelgl.Window) {
 }
+
+func editEnd(g *vis.MapGraph) {}
