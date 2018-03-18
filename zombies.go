@@ -61,7 +61,7 @@ func entry() {
 	draw := imdraw.New(nil)
 	draw.Color = colornames.Black
 
-	consolas, err := loadFont("consola.ttf", 32)
+	consolas, err := loadFont("consola.ttf", 24)
 	if err != nil {
 		panic(err)
 	}
