@@ -11,7 +11,9 @@ import (
 	"github.com/faiface/pixel/text"
 
 	"golang.org/x/image/colornames"
-	"golang.org/x/image/font/basicfont"
+	"golang.org/x/image/font"
+
+	"github.com/golang/freetype/truetype"
 
 	"github.com/3541/zombies/vis"
 )
@@ -20,6 +22,20 @@ const (
 	CAMERA_SPEED = 600.0
 	ZOOM_SPEED   = 1.01
 )
+
+func loadFont(path string, size float64) (font.Face, error) {
+	data, err := ioutil.ReadFile(path)
+	if err != nil {
+		return nil, err
+	}
+
+	font, err := truetype.Parse(data)
+	if err != nil {
+		return nil, err
+	}
+
+	return truetype.NewFace(font, &truetype.Options{Size: size, GlyphCacheEntries: 1}), nil
+}
 
 func entry() {
 	monitor := pixelgl.PrimaryMonitor()
@@ -45,7 +61,17 @@ func entry() {
 	draw := imdraw.New(nil)
 	draw.Color = colornames.Black
 
-	g := vis.NewMapGraph(window, draw, text.NewAtlas(basicfont.Face7x13, text.ASCII), pixel.R(0, 0, 1000, 1000))
+	consolas, err := loadFont("consola.ttf", 32)
+	if err != nil {
+		panic(err)
+	}
+
+	consolasSmall, err := loadFont("consola.ttf", 16)
+	if err != nil {
+		panic(err)
+	}
+
+	g := vis.NewMapGraph(window, draw, text.NewAtlas(consolasSmall, text.ASCII), pixel.R(0, 0, 1000, 1000))
 
 	/*	n1 := g.NewPositionedNode("BUILDING 1", 500, 500)
 		g.AddNode(n1)
@@ -64,7 +90,7 @@ func entry() {
 		}*/
 
 	// Load and parse the map
-	s, _ := ioutil.ReadFile("./test_map.json")
+	s, _ := ioutil.ReadFile("./map.json")
 
 	err = g.Deserialize(s)
 	if err != nil {
@@ -72,14 +98,14 @@ func entry() {
 	}
 
 	// Start the map editor when running a debug build (see edit_release.go and edit_debug.go)
-	editInit(window, g)
+	editInit(window, g, consolas)
 
 	// To track framerate
 	frames := 0
 	timer := time.Tick(time.Second)
 
 	// Used to print framerate to screen
-	logAtlas := text.NewAtlas(basicfont.Face7x13, text.ASCII)
+	logAtlas := text.NewAtlas(consolas, text.ASCII)
 	logText := text.New(pixel.V(10, 10), logAtlas)
 	logText.Color = colornames.Black
 
