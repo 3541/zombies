@@ -96,12 +96,12 @@ func entry() {
 	}
 	mapSprite := pixel.NewSprite(mapImage, mapImage.Bounds())
 
-	g := vis.NewMapGraph(window, draw, text.NewAtlas(consolasSmall, text.ASCII), pixel.R(0, 0, 1194, 919))
+	g := vis.NewMapGraph(window, draw, text.NewAtlas(consolasSmall, text.ASCII), pixel.R(0, 0, mapImage.Bounds().W(), mapImage.Bounds().H()))
 
 	// Load and parse the map
-	//	s, _ := ioutil.ReadFile("./map.json")
+	s, _ := ioutil.ReadFile("./map.json")
 
-	//	err = g.Deserialize(s)
+	err = g.Deserialize(s)
 	if err != nil {
 		panic(err)
 	}

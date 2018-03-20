@@ -100,7 +100,7 @@ func editGraph(camera pixel.Matrix) {
 			break
 		}
 
-		if editor.window.JustPressed(pixelgl.KeyBackspace) {
+		if editor.window.JustPressed(pixelgl.KeyBackspace) && editor.input.buffer.Len() > 0 {
 			editor.input.buffer.Truncate(editor.input.buffer.Len() - 1)
 			editor.statusText.Clear()
 			editor.statusText.WriteString(editor.input.prompt)
@@ -133,7 +133,6 @@ func editGraph(camera pixel.Matrix) {
 				editor.statusText.WriteString(editor.input.prompt)
 			}
 		} else if editor.window.JustPressed(pixelgl.KeyBackspace) || editor.window.JustPressed(pixelgl.KeyDelete) {
-			fmt.Println("Deleting vertex")
 			for _, n := range editor.g.From(editor.selected) {
 				editor.g.RemoveEdge(editor.g.EdgeBetween(editor.selected, n))
 			}
@@ -207,5 +206,6 @@ func editEnd(window *pixelgl.Window, g *vis.MapGraph) {
 		if err != nil {
 			panic(err)
 		}
+		fmt.Printf("Saved to %s\n", in)
 	}
 }
