@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
+	"image"
 	"io/ioutil"
+	"os"
 	"time"
 
 	"github.com/faiface/pixel"
@@ -12,6 +14,8 @@ import (
 
 	"golang.org/x/image/colornames"
 	"golang.org/x/image/font"
+
+	_ "image/png"
 
 	"github.com/golang/freetype/truetype"
 
@@ -35,6 +39,21 @@ func loadFont(path string, size float64) (font.Face, error) {
 	}
 
 	return truetype.NewFace(font, &truetype.Options{Size: size, GlyphCacheEntries: 1}), nil
+}
+
+func loadImage(path string) (pixel.Picture, error) {
+	file, err := os.Open(path)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+
+	image, _, err := image.Decode(file)
+	if err != nil {
+		return nil, err
+	}
+
+	return pixel.PictureDataFromImage(image), nil
 }
 
 func entry() {
@@ -71,28 +90,18 @@ func entry() {
 		panic(err)
 	}
 
-	g := vis.NewMapGraph(window, draw, text.NewAtlas(consolasSmall, text.ASCII), pixel.R(0, 0, 1000, 1000))
+	mapImage, err := loadImage("vantage.png")
+	if err != nil {
+		panic(err)
+	}
+	mapSprite := pixel.NewSprite(mapImage, mapImage.Bounds())
 
-	/*	n1 := g.NewPositionedNode("BUILDING 1", 500, 500)
-		g.AddNode(n1)
-		n2 := g.NewPositionedNode("BUILDING 2", 800, 600)
-		g.AddNode(n2)
-		g.AddEdge(n1, n2, 3)
-
-		s, err := g.Serialize()
-		if err != nil {
-			panic(err)
-		}
-
-		err = ioutil.WriteFile("./test_map.json", s, 0666)
-		if err != nil {
-			panic(err)
-		}*/
+	g := vis.NewMapGraph(window, draw, text.NewAtlas(consolasSmall, text.ASCII), pixel.R(0, 0, 1194, 919))
 
 	// Load and parse the map
-	s, _ := ioutil.ReadFile("./map.json")
+	//	s, _ := ioutil.ReadFile("./map.json")
 
-	err = g.Deserialize(s)
+	//	err = g.Deserialize(s)
 	if err != nil {
 		panic(err)
 	}
@@ -154,6 +163,7 @@ func entry() {
 
 		window.Clear(colornames.White)
 
+		mapSprite.Draw(window, pixel.IM.Moved(mapImage.Bounds().Center()))
 		g.Draw()
 
 		// untransform so fps counter appears in bottom-left of viewport regardless of pan/zoom

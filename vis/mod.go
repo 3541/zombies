@@ -17,8 +17,9 @@ import (
 )
 
 type PositionedNode struct {
-	Id   int
-	Name string
+	Id       int
+	Name     string
+	Selected bool
 
 	// Store the name pre-rendered
 	renderedName *text.Text
@@ -53,23 +54,25 @@ type MapGraph struct {
 	atlas  *text.Atlas
 	Bounds pixel.Rect
 
-	changed bool
+	VertexSize float64
+
+	Changed bool
 }
 
 func NewMapGraph(window *pixelgl.Window, draw *imdraw.IMDraw, atlas *text.Atlas, bounds pixel.Rect) *MapGraph {
-	return &MapGraph{simple.NewUndirectedGraph(0, -1), window, draw, atlas, bounds, true}
+	return &MapGraph{simple.NewUndirectedGraph(0, -1), window, draw, atlas, bounds, (40.0 / 3840) * window.Bounds().H(), true}
 }
 
 func (g *MapGraph) NewPositionedNode(name string, x float64, y float64) *PositionedNode {
-	n := &PositionedNode{g.UndirectedGraph.NewNodeID(), name, nil, pixel.V(x, y)}
+	n := &PositionedNode{g.UndirectedGraph.NewNodeID(), name, false, nil, pixel.V(x, y)}
 	n.RenderName(g.atlas)
 	return n
 }
 
-// Allows re-rendering only when the graph is actually changed
+// Allows re-rendering only when the graph is actually Changed
 func (g *MapGraph) AddNode(n graph.Node) {
 	g.UndirectedGraph.AddNode(n)
-	g.changed = true
+	g.Changed = true
 }
 
 // Returns vertices, asserting they are all PositionedNodes
@@ -100,13 +103,18 @@ func (g *MapGraph) AddEdge(from *PositionedNode, to *PositionedNode, weight floa
 }
 
 func (g *MapGraph) Draw() {
-	if g.changed {
+	if g.Changed {
 		g.draw.Reset()
-		g.draw.Color = colornames.Lightslategray
+		g.draw.Clear()
+		g.draw.Color = colornames.Red
 		for _, n := range g.Nodes() {
 			// Draw vertex
 			g.draw.Push(n.Pos)
-			g.draw.Circle(20, 0)
+			if n.Selected {
+				g.draw.Circle(g.VertexSize, 4)
+			} else {
+				g.draw.Circle(g.VertexSize, 0)
+			}
 
 			// Draw edges from that vertex
 			for _, t := range g.From(n) {
@@ -119,10 +127,10 @@ func (g *MapGraph) Draw() {
 		}
 
 		g.draw.Push(pixel.V(0, 0))
-		g.draw.Push(pixel.V(1000, 1000))
+		g.draw.Push(pixel.V(g.Bounds.W(), g.Bounds.H()))
 		g.draw.Rectangle(2)
 
-		g.changed = false
+		g.Changed = false
 	}
 
 	g.draw.Draw(g.window)
