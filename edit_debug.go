@@ -150,8 +150,8 @@ func editGraph(camera pixel.Matrix) {
 		}
 	case CreateEdge:
 		w, err := strconv.ParseFloat(editor.input.buffer.String(), 64)
-		if err != nil {
-			editor.statusText.WriteString("Must enter a valid number.")
+		if err != nil || w < 1 {
+			editor.statusText.WriteString("Must enter a valid number greater than 0.")
 		} else {
 			editor.tempEdge.W = w
 			if !editor.g.HasEdgeBetween(editor.tempEdge.F, editor.tempEdge.T) {

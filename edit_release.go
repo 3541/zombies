@@ -5,15 +5,17 @@
 package main
 
 import (
+	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/pixelgl"
+	"golang.org/x/image/font"
 
 	"github.com/3541/zombies/vis"
 )
 
-func editGraph(window *pixelgl.Window, g *vis.MapGraph) {
+func editGraph(camera pixel.Matrix) {
 }
 
-func editInit(window *pixelgl.Window) {
+func editInit(window *pixelgl.Window, g *vis.MapGraph, font font.Face) {
 }
 
-func editEnd(g *vis.MapGraph) {}
+func editEnd(window *pixelgl.Window, g *vis.MapGraph) {}

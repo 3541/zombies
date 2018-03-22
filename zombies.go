@@ -61,7 +61,7 @@ func entry() {
 	width, height := monitor.Size()
 
 	config := pixelgl.WindowConfig{
-		Title:  "Apocalypse Simulator 2018",
+		Title:  "American Politics Simulator 2018",
 		Bounds: pixel.R(0, 0, width, height),
 		//VSync:  true,
 	}
@@ -90,13 +90,13 @@ func entry() {
 			panic(err)
 		}*/
 
-	mapImage, err := loadImage("vantage.png")
-	if err != nil {
-		panic(err)
-	}
-	mapSprite := pixel.NewSprite(mapImage, mapImage.Bounds())
+	/*	mapImage, err := loadImage("vantage.png")
+		if err != nil {
+			panic(err)
+		}*/
+	//mapSprite := pixel.NewSprite(mapImage, mapImage.Bounds())
 
-	g := vis.NewMapGraph(window, draw, text.NewAtlas(consolas, text.ASCII), pixel.R(0, 0, mapImage.Bounds().W(), mapImage.Bounds().H()))
+	g := vis.NewMapGraph(window, draw, text.NewAtlas(consolas, text.ASCII), pixel.R(0, 0, 1000, 1000))
 
 	// Load and parse the map
 	s, _ := ioutil.ReadFile("./map.json")
@@ -123,6 +123,8 @@ func entry() {
 
 	// Track time since last frame for constant-speed movements, even without VSync
 	lastFrame := time.Now()
+
+	//	g.PopulateMap()
 
 	for !window.Closed() {
 		timeElapsed := time.Since(lastFrame).Seconds()
@@ -156,6 +158,32 @@ func entry() {
 			cameraZoom = 0
 		}
 
+		if window.JustPressed(pixelgl.KeyS) {
+			g.PrintEntityStatus()
+		}
+
+		if window.JustPressed(pixelgl.KeyC) {
+			g.StatusText.Clear()
+		}
+
+		if window.JustPressed(pixelgl.KeyK) {
+			g.StatusText.WriteString("CS: CHAINSAW\n")
+			g.StatusText.WriteString("PSTL: PISTOL\n")
+			g.StatusText.WriteString("RFL: RIFLE\n")
+			g.StatusText.WriteString("EB: ENERGY BAR\n")
+			g.StatusText.WriteString("WS: WATER SOURCE\n")
+			g.StatusText.WriteString("WB: WATER BOTTLE\n")
+			g.StatusText.WriteString("RP: RUSTY PIPE\n")
+			g.StatusText.WriteString("HTCHT: HATCHET\n")
+			g.StatusText.WriteString("IAF: IMPROVISED AEROSOL FLAMETHROWER\n")
+			g.StatusText.WriteString("BDG: BANDAGE\n")
+			g.StatusText.WriteString("WRNC: WRENCH\n")
+			g.StatusText.WriteString("HS: HACKSAW\n")
+			g.StatusText.WriteString("RPG: ROCKET-PROPELLED GRENADE LAUNCHER\n")
+			g.StatusText.WriteString("ATGM: ANTI-TANK GUIDED MISSILE\n")
+			g.StatusText.WriteString("HW: HOLY WATER\n")
+		}
+
 		// Scale viewport to match height of map space
 		viewportScale := window.Bounds().H() / g.Bounds.H()
 		camera := pixel.IM.Scaled(window.Bounds().Min, viewportScale).Moved(window.Bounds().Center().Sub(cameraPosition)).Scaled(window.Bounds().Center(), cameraZoom)
@@ -163,12 +191,13 @@ func entry() {
 
 		window.Clear(colornames.White)
 
-		mapSprite.Draw(window, pixel.IM.Moved(mapImage.Bounds().Center()))
+		//	mapSprite.Draw(window, pixel.IM.Moved(mapImage.Bounds().Center()))
 		g.Draw()
 
 		// untransform so fps counter appears in bottom-left of viewport regardless of pan/zoom
 		window.SetMatrix(pixel.IM)
 		logText.Draw(window, pixel.IM)
+		g.StatusText.Draw(window, pixel.IM)
 
 		// Do map editor things, if in a debug build
 		editGraph(camera)

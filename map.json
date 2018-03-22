@@ -1,853 +1,2389 @@
 {
     "G": {
         "Bounds": {
-            "Min": {
-                "X": 0,
-                "Y": 0
-            },
             "Max": {
                 "X": 3357,
                 "Y": 2151
+            },
+            "Min": {
+                "X": 0,
+                "Y": 0
             }
         },
-        "VertexSize": 22.5,
-        "Changed": false
+        "Changed": false,
+        "VertexSize": 22.5
     },
     "U": {
+        "Edges": [
+            {
+                "F": 2,
+                "T": 3,
+                "W": 1
+            },
+            {
+                "F": 4,
+                "T": 3,
+                "W": 1
+            },
+            {
+                "F": 29,
+                "T": 40,
+                "W": 1
+            },
+            {
+                "F": 31,
+                "T": 40,
+                "W": 1
+            },
+            {
+                "F": 40,
+                "T": 23,
+                "W": 1
+            },
+            {
+                "F": 34,
+                "T": 33,
+                "W": 1
+            },
+            {
+                "F": 34,
+                "T": 35,
+                "W": 1
+            },
+            {
+                "F": 34,
+                "T": 32,
+                "W": 1
+            },
+            {
+                "F": 26,
+                "T": 20,
+                "W": 1
+            },
+            {
+                "F": 21,
+                "T": 20,
+                "W": 1
+            },
+            {
+                "F": 20,
+                "T": 19,
+                "W": 1
+            },
+            {
+                "F": 53,
+                "T": 55,
+                "W": 1
+            },
+            {
+                "F": 55,
+                "T": 54,
+                "W": 1
+            },
+            {
+                "F": 62,
+                "T": 55,
+                "W": 1
+            },
+            {
+                "F": 59,
+                "T": 58,
+                "W": 1
+            },
+            {
+                "F": 60,
+                "T": 59,
+                "W": 1
+            },
+            {
+                "F": 58,
+                "T": 57,
+                "W": 1
+            },
+            {
+                "F": 57,
+                "T": 56,
+                "W": 1
+            },
+            {
+                "F": 13,
+                "T": 15,
+                "W": 2
+            },
+            {
+                "F": 13,
+                "T": 6,
+                "W": 1
+            },
+            {
+                "F": 13,
+                "T": 14,
+                "W": 2
+            },
+            {
+                "F": 28,
+                "T": 23,
+                "W": 1
+            },
+            {
+                "F": 23,
+                "T": 22,
+                "W": 1
+            },
+            {
+                "F": 23,
+                "T": 44,
+                "W": 1
+            },
+            {
+                "F": 29,
+                "T": 28,
+                "W": 1
+            },
+            {
+                "F": 29,
+                "T": 30,
+                "W": 1
+            },
+            {
+                "F": 54,
+                "T": 52,
+                "W": 1
+            },
+            {
+                "F": 54,
+                "T": 56,
+                "W": 1
+            },
+            {
+                "F": 1,
+                "T": 0,
+                "W": 3
+            },
+            {
+                "F": 15,
+                "T": 16,
+                "W": 2
+            },
+            {
+                "F": 8,
+                "T": 63,
+                "W": 1
+            },
+            {
+                "F": 43,
+                "T": 8,
+                "W": 1
+            },
+            {
+                "F": 63,
+                "T": 62,
+                "W": 1
+            },
+            {
+                "F": 62,
+                "T": 61,
+                "W": 1
+            },
+            {
+                "F": 49,
+                "T": 50,
+                "W": 1
+            },
+            {
+                "F": 50,
+                "T": 51,
+                "W": 1
+            },
+            {
+                "F": 27,
+                "T": 21,
+                "W": 1
+            },
+            {
+                "F": 22,
+                "T": 21,
+                "W": 1
+            },
+            {
+                "F": 26,
+                "T": 21,
+                "W": 1
+            },
+            {
+                "F": 9,
+                "T": 10,
+                "W": 1
+            },
+            {
+                "F": 12,
+                "T": 10,
+                "W": 1
+            },
+            {
+                "F": 10,
+                "T": 7,
+                "W": 1
+            },
+            {
+                "F": 10,
+                "T": 11,
+                "W": 1
+            },
+            {
+                "F": 27,
+                "T": 22,
+                "W": 1
+            },
+            {
+                "F": 22,
+                "T": 44,
+                "W": 1
+            },
+            {
+                "F": 6,
+                "T": 11,
+                "W": 1
+            },
+            {
+                "F": 11,
+                "T": 18,
+                "W": 1
+            },
+            {
+                "F": 11,
+                "T": 44,
+                "W": 1
+            },
+            {
+                "F": 45,
+                "T": 46,
+                "W": 1
+            },
+            {
+                "F": 17,
+                "T": 45,
+                "W": 1
+            },
+            {
+                "F": 42,
+                "T": 43,
+                "W": 1
+            },
+            {
+                "F": 47,
+                "T": 48,
+                "W": 1
+            },
+            {
+                "F": 46,
+                "T": 47,
+                "W": 1
+            },
+            {
+                "F": 32,
+                "T": 31,
+                "W": 1
+            },
+            {
+                "F": 31,
+                "T": 30,
+                "W": 1
+            },
+            {
+                "F": 7,
+                "T": 6,
+                "W": 1
+            },
+            {
+                "F": 9,
+                "T": 7,
+                "W": 1
+            },
+            {
+                "F": 39,
+                "T": 38,
+                "W": 1
+            },
+            {
+                "F": 41,
+                "T": 39,
+                "W": 1
+            },
+            {
+                "F": 26,
+                "T": 24,
+                "W": 1
+            },
+            {
+                "F": 24,
+                "T": 5,
+                "W": 1
+            },
+            {
+                "F": 25,
+                "T": 24,
+                "W": 1
+            },
+            {
+                "F": 9,
+                "T": 24,
+                "W": 1
+            },
+            {
+                "F": 53,
+                "T": 52,
+                "W": 1
+            },
+            {
+                "F": 44,
+                "T": 53,
+                "W": 1
+            },
+            {
+                "F": 26,
+                "T": 19,
+                "W": 1
+            },
+            {
+                "F": 27,
+                "T": 26,
+                "W": 1
+            },
+            {
+                "F": 35,
+                "T": 36,
+                "W": 1
+            },
+            {
+                "F": 5,
+                "T": 6,
+                "W": 1
+            },
+            {
+                "F": 4,
+                "T": 5,
+                "W": 1
+            },
+            {
+                "F": 56,
+                "T": 51,
+                "W": 1
+            },
+            {
+                "F": 52,
+                "T": 51,
+                "W": 1
+            },
+            {
+                "F": 38,
+                "T": 36,
+                "W": 1
+            },
+            {
+                "F": 36,
+                "T": 37,
+                "W": 1
+            },
+            {
+                "F": 38,
+                "T": 37,
+                "W": 1
+            },
+            {
+                "F": 33,
+                "T": 32,
+                "W": 1
+            },
+            {
+                "F": 48,
+                "T": 49,
+                "W": 1
+            },
+            {
+                "F": 28,
+                "T": 27,
+                "W": 1
+            },
+            {
+                "F": 25,
+                "T": 27,
+                "W": 1
+            },
+            {
+                "F": 25,
+                "T": 4,
+                "W": 1
+            },
+            {
+                "F": 18,
+                "T": 17,
+                "W": 1
+            },
+            {
+                "F": 18,
+                "T": 14,
+                "W": 2
+            },
+            {
+                "F": 60,
+                "T": 61,
+                "W": 1
+            },
+            {
+                "F": 43,
+                "T": 41,
+                "W": 1
+            },
+            {
+                "F": 12,
+                "T": 9,
+                "W": 1
+            },
+            {
+                "F": 30,
+                "T": 33,
+                "W": 1
+            },
+            {
+                "F": 19,
+                "T": 12,
+                "W": 1
+            },
+            {
+                "F": 2,
+                "T": 1,
+                "W": 2
+            }
+        ],
         "Nodes": [
             {
-                "Id": 36,
-                "Name": "Trailer 11",
-                "Selected": false,
-                "Weight": 2,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 1561.1300255106758,
-                    "Y": 1535.3398160699905
-                }
-            },
-            {
-                "Id": 7,
-                "Name": "Store 1",
-                "Selected": false,
-                "Weight": 3,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 2209.754166666667,
-                    "Y": 291.7791666666667
-                }
-            },
-            {
-                "Id": 44,
-                "Name": "House 1",
-                "Selected": false,
-                "Weight": 4,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 2176.8285232839353,
-                    "Y": 1140.9681091055988
-                }
-            },
-            {
-                "Id": 34,
-                "Name": "Trailer 9",
-                "Selected": false,
-                "Weight": 2,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 1647.5275568486763,
-                    "Y": 1352.4650414045561
-                }
-            },
-            {
-                "Id": 25,
-                "Name": "Public Restroom 1",
-                "Selected": false,
-                "Weight": 1,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 1758.6416666666669,
-                    "Y": 461.0708333333334
-                }
-            },
-            {
-                "Id": 35,
-                "Name": "Trailer 10",
-                "Selected": false,
-                "Weight": 2,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 1610.0886266022092,
-                    "Y": 1432.6227510348124
-                }
-            },
-            {
-                "Id": 33,
-                "Name": "Trailer 7",
-                "Selected": false,
-                "Weight": 2,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 1675.3667613909208,
-                    "Y": 1276.147222055989
-                }
-            },
-            {
-                "Id": 6,
-                "Name": "Restaurant 1",
-                "Selected": false,
-                "Weight": 3,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 2203.779166666667,
-                    "Y": 184.22916666666669
-                }
-            },
-            {
-                "Id": 54,
-                "Name": "House 11",
-                "Selected": false,
-                "Weight": 4,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 2265.1459997627803,
-                    "Y": 1674.5445072079438
-                }
-            },
-            {
-                "Id": 59,
-                "Name": "Church",
-                "Selected": false,
-                "Weight": 2,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 2377.942776787392,
-                    "Y": 1897.8446015405423
-                }
-            },
-            {
-                "Id": 20,
-                "Name": "Resort",
-                "Selected": false,
-                "Weight": 3,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 2012.5791666666669,
-                    "Y": 805.6291666666668
-                }
-            },
-            {
-                "Id": 11,
-                "Name": "Garage",
-                "Selected": false,
-                "Weight": 2,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 2351.1625000000004,
-                    "Y": 557.6666666666667
-                }
-            },
-            {
-                "Id": 24,
-                "Name": "Trailer Park Office",
-                "Selected": false,
-                "Weight": 3,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 1882.1250000000002,
-                    "Y": 444.1416666666667
-                }
-            },
-            {
-                "Id": 5,
-                "Name": "Warehouse 3",
-                "Selected": false,
-                "Weight": 2,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 1989.6750000000002,
-                    "Y": 205.14166666666668
-                }
-            },
-            {
-                "Id": 41,
-                "Name": "Public Restroom 2",
-                "Selected": false,
-                "Weight": 1,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 1438.2535364966304,
-                    "Y": 1769.000012989956
-                }
-            },
-            {
-                "Id": 31,
-                "Name": "Trailer 6",
-                "Selected": false,
-                "Weight": 2,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 1772.3239910035659,
-                    "Y": 1254.0678529362779
-                }
-            },
-            {
-                "Id": 21,
-                "Name": "General Store",
-                "Selected": false,
-                "Weight": 3,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 1992.6625000000001,
-                    "Y": 877.3291666666668
-                }
-            },
-            {
-                "Id": 43,
-                "Name": "Trailer 16",
-                "Selected": false,
-                "Weight": 2,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 1531.3708758275868,
-                    "Y": 1936.8687578776107
-                }
-            },
-            {
-                "Id": 49,
-                "Name": "House 6",
-                "Selected": false,
-                "Weight": 4,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 2563.697469164093,
-                    "Y": 1460.470624003787
-                }
-            },
-            {
-                "Id": 29,
-                "Name": "Trailer 4",
-                "Selected": false,
-                "Weight": 2,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 1768.9640870070882,
-                    "Y": 1130.473855482435
-                }
-            },
-            {
-                "Id": 45,
-                "Name": "House 2",
-                "Selected": false,
-                "Weight": 4,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 2688.013917033772,
-                    "Y": 1085.7696863063209
-                }
-            },
-            {
-                "Id": 37,
-                "Name": "Trailer 12",
-                "Selected": false,
-                "Weight": 2,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 1593.7690929050316,
-                    "Y": 1579.405430331566
-                }
-            },
-            {
-                "Id": 52,
-                "Name": "House 9",
-                "Selected": false,
-                "Weight": 4,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 2349.6235859599365,
-                    "Y": 1519.988923369965
-                }
-            },
-            {
-                "Id": 56,
-                "Name": "Police Station",
-                "Selected": false,
-                "Weight": 5,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 2423.541473882448,
-                    "Y": 1714.4898405898966
-                }
-            },
-            {
-                "Id": 27,
-                "Name": "Trailer 2",
-                "Selected": false,
-                "Weight": 2,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 1822.722550950733,
-                    "Y": 868.4013437571668
-                }
-            },
-            {
-                "Id": 15,
-                "Name": "Dock 1",
-                "Selected": false,
-                "Weight": 1,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 3221.520833333334,
-                    "Y": 58.75416666666668
-                }
-            },
-            {
-                "Id": 42,
-                "Name": "Store 3",
-                "Selected": false,
-                "Weight": 3,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 1252.9788304051406,
-                    "Y": 2039.639705897688
-                }
-            },
-            {
-                "Id": 1,
-                "Name": "Hut",
-                "Selected": false,
-                "Weight": 1,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 1232.841666666667,
-                    "Y": 451.11250000000007
-                }
-            },
-            {
-                "Id": 57,
-                "Name": "Fire Station",
-                "Selected": false,
-                "Weight": 3,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 2363.0632019458476,
-                    "Y": 1764.4084142518525
-                }
-            },
-            {
-                "Id": 53,
-                "Name": "House 10",
-                "Selected": false,
-                "Weight": 4,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 2228.6670420867354,
-                    "Y": 1454.7107885812534
-                }
-            },
-            {
-                "Id": 10,
-                "Name": "Convenience Store",
-                "Selected": false,
-                "Weight": 3,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 2181.8708333333334,
-                    "Y": 495.92500000000007
-                }
-            },
-            {
-                "Id": 16,
-                "Name": "Boat",
-                "Selected": false,
-                "Weight": 10,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 3202.6000000000004,
-                    "Y": 152.3625
-                }
-            },
-            {
-                "Id": 22,
-                "Name": "Office 1",
-                "Selected": false,
-                "Weight": 3,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 1962.7875000000001,
-                    "Y": 954.0083333333334
-                }
-            },
-            {
-                "Id": 62,
-                "Name": "House 14",
-                "Selected": false,
-                "Weight": 4,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 1884.5185808150547,
-                    "Y": 1994.1115729604744
-                }
-            },
-            {
-                "Id": 38,
-                "Name": "Trailer 13",
-                "Selected": false,
-                "Weight": 2,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 1511.6914381339311,
-                    "Y": 1604.364717162544
-                }
-            },
-            {
-                "Id": 12,
-                "Name": "Mysterious Edifice",
-                "Selected": false,
-                "Weight": 0,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 2085.275,
-                    "Y": 603.475
-                }
-            },
-            {
-                "Id": 51,
-                "Name": "House 8",
-                "Selected": false,
-                "Weight": 4,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 2519.5387309246707,
-                    "Y": 1588.6269621551544
-                }
-            },
-            {
-                "Id": 18,
-                "Name": "Center Park",
-                "Selected": false,
-                "Weight": 0,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 2693.729166666667,
-                    "Y": 632.3541666666667
-                }
-            },
-            {
-                "Id": 9,
-                "Name": "Gas Station",
-                "Selected": false,
-                "Weight": 0,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 2101.2083333333335,
-                    "Y": 464.0583333333334
-                }
-            },
-            {
-                "Id": 60,
-                "Name": "Office 3",
-                "Selected": false,
-                "Weight": 3,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 2390.422420202881,
-                    "Y": 2003.4415842869873
-                }
-            },
-            {
-                "Id": 4,
-                "Name": "Warehouse 2",
-                "Selected": false,
-                "Weight": 2,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 1723.7875000000001,
-                    "Y": 183.23333333333335
-                }
-            },
-            {
-                "Id": 14,
-                "Name": "Dock 2",
-                "Selected": false,
-                "Weight": 1,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 3165.7541666666666,
-                    "Y": 283.81250000000006
-                }
-            },
-            {
-                "Id": 40,
-                "Name": "Trailer 15",
-                "Selected": false,
-                "Weight": 2,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 1906.7201508626779,
-                    "Y": 1211.2559495746416
-                }
-            },
-            {
-                "Id": 28,
-                "Name": "Trailer 3",
-                "Selected": false,
-                "Weight": 2,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 1809.7629212500328,
-                    "Y": 1005.1974350423343
-                }
-            },
-            {
-                "Id": 48,
-                "Name": "House 5",
-                "Selected": false,
-                "Weight": 4,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 2617.455933107738,
-                    "Y": 1387.9926949369085
-                }
-            },
-            {
-                "Id": 13,
-                "Name": "Water Treatment Plant",
-                "Selected": false,
-                "Weight": 3,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 2854.0583333333334,
-                    "Y": 55.76666666666667
-                }
-            },
-            {
-                "Id": 17,
-                "Name": "Overlook Park",
-                "Selected": false,
-                "Weight": 0,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 2793.3125000000005,
-                    "Y": 908.2
-                }
-            },
-            {
                 "Id": 8,
+                "Items": [
+                    3,
+                    3,
+                    5,
+                    5,
+                    8
+                ],
                 "Name": "Store 2",
-                "Selected": false,
-                "Weight": 3,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
+                "People": [
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 10,
+                        "Items": [
+                            3
+                        ],
+                        "Location": 8,
+                        "Profession": 6,
+                        "Thirst": 0
+                    },
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 77,
+                        "Items": [],
+                        "Location": 8,
+                        "Profession": 6,
+                        "Thirst": 0
+                    }
+                ],
                 "Pos": {
                     "X": 1608.2708333333335,
                     "Y": 2016.5625000000002
-                }
-            },
-            {
-                "Id": 26,
-                "Name": "Trailer 1",
-                "Selected": false,
-                "Weight": 2,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 1884.6407817429665,
-                    "Y": 720.0855816269325
-                }
-            },
-            {
-                "Id": 30,
-                "Name": "Trailer 5",
-                "Selected": false,
-                "Weight": 2,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 1718.5655270599211,
-                    "Y": 1223.8287169679775
-                }
-            },
-            {
-                "Id": 58,
-                "Name": "Hardware Store",
+                },
                 "Selected": false,
                 "Weight": 3,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 2365.9431196571145,
-                    "Y": 1840.2462473152086
-                }
+                "Zombies": null
             },
             {
-                "Id": 0,
-                "Name": "Broadcast Tower",
-                "Selected": false,
-                "Weight": 6,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
+                "Id": 60,
+                "Items": [
+                    9,
+                    9,
+                    9,
+                    9,
+                    9,
+                    9,
+                    9,
+                    9,
+                    9,
+                    11,
+                    5,
+                    5
+                ],
+                "Name": "Doctor's Office",
+                "People": [
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 26,
+                        "Items": [
+                            9,
+                            9,
+                            9,
+                            9,
+                            11
+                        ],
+                        "Location": 60,
+                        "Profession": 3,
+                        "Thirst": 0
+                    },
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 27,
+                        "Items": [
+                            3,
+                            5
+                        ],
+                        "Location": 60,
+                        "Profession": 6,
+                        "Thirst": 0
+                    }
+                ],
                 "Pos": {
-                    "X": 57.75833333333334,
-                    "Y": 339.57916666666665
-                }
+                    "X": 2390.422420202881,
+                    "Y": 2003.4415842869873
+                },
+                "Selected": false,
+                "Weight": 3,
+                "Zombies": null
+            },
+            {
+                "Id": 49,
+                "Items": [
+                    3,
+                    3,
+                    3,
+                    5,
+                    5,
+                    5,
+                    1,
+                    11,
+                    8
+                ],
+                "Name": "House 6",
+                "People": [],
+                "Pos": {
+                    "X": 2563.697469164093,
+                    "Y": 1460.470624003787
+                },
+                "Selected": false,
+                "Weight": 4,
+                "Zombies": null
+            },
+            {
+                "Id": 34,
+                "Items": [
+                    2,
+                    3,
+                    4,
+                    10
+                ],
+                "Name": "Trailer 9",
+                "People": [],
+                "Pos": {
+                    "X": 1647.5275568486763,
+                    "Y": 1352.4650414045561
+                },
+                "Selected": false,
+                "Weight": 2,
+                "Zombies": null
+            },
+            {
+                "Id": 5,
+                "Items": [
+                    1,
+                    1,
+                    5,
+                    5,
+                    5,
+                    5,
+                    5,
+                    5,
+                    9,
+                    9,
+                    9,
+                    9,
+                    11,
+                    11
+                ],
+                "Name": "Warehouse 3",
+                "People": [
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 23,
+                        "Items": [
+                            3
+                        ],
+                        "Location": 5,
+                        "Profession": 6,
+                        "Thirst": 0
+                    },
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 24,
+                        "Items": [
+                            5
+                        ],
+                        "Location": 5,
+                        "Profession": 6,
+                        "Thirst": 0
+                    },
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 25,
+                        "Items": [
+                            7,
+                            10,
+                            3,
+                            5
+                        ],
+                        "Location": 5,
+                        "Profession": 4,
+                        "Thirst": 0
+                    }
+                ],
+                "Pos": {
+                    "X": 1989.6750000000002,
+                    "Y": 205.14166666666668
+                },
+                "Selected": false,
+                "Weight": 2,
+                "Zombies": null
             },
             {
                 "Id": 19,
+                "Items": [
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    5,
+                    5,
+                    5,
+                    5,
+                    5,
+                    5,
+                    5,
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                ],
                 "Name": "Restaurant 2",
-                "Selected": false,
-                "Weight": 3,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
+                "People": [
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 14,
+                        "Items": [
+                            5
+                        ],
+                        "Location": 19,
+                        "Profession": 6,
+                        "Thirst": 0
+                    },
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 15,
+                        "Items": [
+                            3
+                        ],
+                        "Location": 19,
+                        "Profession": 6,
+                        "Thirst": 0
+                    }
+                ],
                 "Pos": {
                     "X": 2039.4666666666667,
                     "Y": 733.9291666666668
-                }
-            },
-            {
-                "Id": 47,
-                "Name": "House 4",
-                "Selected": false,
-                "Weight": 4,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 2640.0152885126604,
-                    "Y": 1298.7152458876415
-                }
-            },
-            {
-                "Id": 23,
-                "Name": "Office 2",
+                },
                 "Selected": false,
                 "Weight": 3,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 1934.904166666667,
-                    "Y": 1073.5083333333334
-                }
+                "Zombies": null
             },
             {
-                "Id": 39,
-                "Name": "Trailer 14",
-                "Selected": false,
-                "Weight": 2,
-                "People": null,
-                "Zombies": null,
+                "Id": 14,
                 "Items": null,
+                "Name": "Dock 2",
+                "People": [],
                 "Pos": {
-                    "X": 1497.2918495775975,
-                    "Y": 1657.6431948209774
-                }
-            },
-            {
-                "Id": 55,
-                "Name": "House 12",
-                "Selected": false,
-                "Weight": 4,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 2145.6294147452127,
-                    "Y": 1605.4264821375432
-                }
-            },
-            {
-                "Id": 46,
-                "Name": "House 3",
-                "Selected": false,
-                "Weight": 4,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 2670.2544244809606,
-                    "Y": 1154.40772509151
-                }
-            },
-            {
-                "Id": 3,
-                "Name": "Warehouse 1",
-                "Selected": false,
-                "Weight": 2,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 1632.1708333333336,
-                    "Y": 143.4
-                }
-            },
-            {
-                "Id": 2,
-                "Name": "Scrapyard",
+                    "X": 3165.7541666666666,
+                    "Y": 283.81250000000006
+                },
                 "Selected": false,
                 "Weight": 1,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
-                "Pos": {
-                    "X": 1396.1583333333335,
-                    "Y": 135.43333333333337
-                }
+                "Zombies": null
             },
             {
-                "Id": 63,
-                "Name": "House 15",
+                "Id": 27,
+                "Items": [
+                    5,
+                    5,
+                    5,
+                    3,
+                    3,
+                    9,
+                    8
+                ],
+                "Name": "Trailer 2",
+                "People": [
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 57,
+                        "Items": [
+                            5,
+                            6
+                        ],
+                        "Location": 27,
+                        "Profession": 6,
+                        "Thirst": 0
+                    },
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 58,
+                        "Items": [
+                            7
+                        ],
+                        "Location": 27,
+                        "Profession": 1,
+                        "Thirst": 0
+                    }
+                ],
+                "Pos": {
+                    "X": 1822.722550950733,
+                    "Y": 868.4013437571668
+                },
+                "Selected": false,
+                "Weight": 2,
+                "Zombies": null
+            },
+            {
+                "Id": 52,
+                "Items": null,
+                "Name": "House 9",
+                "People": [
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 49,
+                        "Items": [
+                            7
+                        ],
+                        "Location": 52,
+                        "Profession": 1,
+                        "Thirst": 0
+                    },
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 50,
+                        "Items": [
+                            5
+                        ],
+                        "Location": 52,
+                        "Profession": 6,
+                        "Thirst": 0
+                    }
+                ],
+                "Pos": {
+                    "X": 2349.6235859599365,
+                    "Y": 1519.988923369965
+                },
                 "Selected": false,
                 "Weight": 4,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
+                "Zombies": null
+            },
+            {
+                "Id": 54,
+                "Items": [
+                    5,
+                    5,
+                    6
+                ],
+                "Name": "House 11",
+                "People": [
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 51,
+                        "Items": [
+                            14,
+                            5
+                        ],
+                        "Location": 54,
+                        "Profession": 5,
+                        "Thirst": 0
+                    }
+                ],
                 "Pos": {
-                    "X": 1790.9212551988874,
-                    "Y": 1970.1122586999188
-                }
+                    "X": 2265.1459997627803,
+                    "Y": 1674.5445072079438
+                },
+                "Selected": false,
+                "Weight": 4,
+                "Zombies": null
+            },
+            {
+                "Id": 44,
+                "Items": [5, 5, 7],
+                "Name": "House 1",
+                "People": [
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 32,
+                        "Items": [
+                            5
+                        ],
+                        "Location": 44,
+                        "Profession": 6,
+                        "Thirst": 0
+                    },
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 33,
+                        "Items": [
+                            9,
+                            9,
+                            9,
+                            9,
+                            11,
+                            5
+                        ],
+                        "Location": 44,
+                        "Profession": 3,
+                        "Thirst": 0
+                    },
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 34,
+                        "Items": [
+                            9,
+                            9,
+                            9,
+                            9,
+                            11,
+                            3
+                        ],
+                        "Location": 44,
+                        "Profession": 3,
+                        "Thirst": 0
+                    }
+                ],
+                "Pos": {
+                    "X": 2176.8285232839353,
+                    "Y": 1140.9681091055988
+                },
+                "Selected": false,
+                "Weight": 4,
+                "Zombies": null
+            },
+            {
+                "Id": 16,
+                "Items": [8, 14, 6],
+                "Name": "Boat",
+                "People": [
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 78,
+                        "Items": [
+                            3,
+                            5
+                        ],
+                        "Location": 16,
+                        "Profession": 6,
+                        "Thirst": 0
+                    },
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 81,
+                        "Items": [
+                            5
+                        ],
+                        "Location": 16,
+                        "Profession": 6,
+                        "Thirst": 0
+                    }
+                ],
+                "Pos": {
+                    "X": 3202.6000000000004,
+                    "Y": 152.3625
+                },
+                "Selected": false,
+                "Weight": 10,
+                "Zombies": null
             },
             {
                 "Id": 32,
+                "Items": [9, 10],
                 "Name": "Trailer 8",
-                "Selected": false,
-                "Weight": 2,
-                "People": null,
-                "Zombies": null,
-                "Items": null,
+                "People": [
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 71,
+                        "Items": [],
+                        "Location": 32,
+                        "Profession": 6,
+                        "Thirst": 0
+                    },
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 75,
+                        "Items": [
+                            5
+                        ],
+                        "Location": 32,
+                        "Profession": 6,
+                        "Thirst": 0
+                    }
+                ],
                 "Pos": {
                     "X": 1726.245307623299,
                     "Y": 1321.2659328658337
-                }
+                },
+                "Selected": false,
+                "Weight": 2,
+                "Zombies": null
             },
             {
-                "Id": 50,
-                "Name": "House 7",
+                "Id": 42,
+                "Items": [3, 3, 3, 3, 3, 5, 5, 5, 5, 11, 10, 10],
+                "Name": "Store 3",
+                "People": [
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 11,
+                        "Items": [
+                            3
+                        ],
+                        "Location": 42,
+                        "Profession": 6,
+                        "Thirst": 0
+                    },
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 79,
+                        "Items": [
+                            3
+                        ],
+                        "Location": 42,
+                        "Profession": 6,
+                        "Thirst": 0
+                    }
+                ],
+                "Pos": {
+                    "X": 1252.9788304051406,
+                    "Y": 2039.639705897688
+                },
+                "Selected": false,
+                "Weight": 3,
+                "Zombies": null
+            },
+            {
+                "Id": 1,
+                "Items": [12],
+                "Name": "Hut",
+                "People": [],
+                "Pos": {
+                    "X": 1232.841666666667,
+                    "Y": 451.11250000000007
+                },
+                "Selected": false,
+                "Weight": 1,
+                "Zombies": null
+            },
+            {
+                "Id": 21,
+                "Items": [1, 7, 3, 3, 3, 5, 5, 5],
+                "Name": "General Store",
+                "People": [
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 2,
+                        "Items": [
+                            3,
+                            5,
+                            6
+                        ],
+                        "Location": 21,
+                        "Profession": 6,
+                        "Thirst": 0
+                    },
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 3,
+                        "Items": [
+                            5,
+                            6
+                        ],
+                        "Location": 21,
+                        "Profession": 6,
+                        "Thirst": 0
+                    }
+                ],
+                "Pos": {
+                    "X": 1992.6625000000001,
+                    "Y": 877.3291666666668
+                },
+                "Selected": false,
+                "Weight": 3,
+                "Zombies": null
+            },
+            {
+                "Id": 28,
+                "Items": null,
+                "Name": "Trailer 3",
+                "People": [
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 59,
+                        "Items": [
+                            9,
+                            9,
+                            9,
+                            9,
+                            11,
+                            5
+                        ],
+                        "Location": 28,
+                        "Profession": 3,
+                        "Thirst": 0
+                    }
+                ],
+                "Pos": {
+                    "X": 1809.7629212500328,
+                    "Y": 1005.1974350423343
+                },
+                "Selected": false,
+                "Weight": 2,
+                "Zombies": null
+            },
+            {
+                "Id": 36,
+                "Items": null,
+                "Name": "Trailer 11",
+                "People": [
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 64,
+                        "Items": [
+                            3,
+                            5
+                        ],
+                        "Location": 36,
+                        "Profession": 6,
+                        "Thirst": 0
+                    },
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 65,
+                        "Items": [
+                            3,
+                            5
+                        ],
+                        "Location": 36,
+                        "Profession": 6,
+                        "Thirst": 0
+                    }
+                ],
+                "Pos": {
+                    "X": 1561.1300255106758,
+                    "Y": 1535.3398160699905
+                },
+                "Selected": false,
+                "Weight": 2,
+                "Zombies": null
+            },
+            {
+                "Id": 46,
+                "Items": [5],
+                "Name": "House 3",
+                "People": [
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 31,
+                        "Items": [
+                            2
+                        ],
+                        "Location": 46,
+                        "Profession": 2,
+                        "Thirst": 0
+                    },
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 37,
+                        "Items": [
+                            5
+                        ],
+                        "Location": 46,
+                        "Profession": 6,
+                        "Thirst": 0
+                    },
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 38,
+                        "Items": [],
+                        "Location": 46,
+                        "Profession": 6,
+                        "Thirst": 0
+                    }
+                ],
+                "Pos": {
+                    "X": 2670.2544244809606,
+                    "Y": 1154.40772509151
+                },
                 "Selected": false,
                 "Weight": 4,
-                "People": null,
-                "Zombies": null,
+                "Zombies": null
+            },
+            {
+                "Id": 53,
                 "Items": null,
+                "Name": "House 10",
+                "People": [],
                 "Pos": {
-                    "X": 2532.498360625371,
-                    "Y": 1514.2290879474317
-                }
+                    "X": 2228.6670420867354,
+                    "Y": 1454.7107885812534
+                },
+                "Selected": false,
+                "Weight": 4,
+                "Zombies": null
+            },
+            {
+                "Id": 4,
+                "Items": [7, 7, 7, 7, 8, 14, 10, 11],
+                "Name": "Warehouse 2",
+                "People": [
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 21,
+                        "Items": [],
+                        "Location": 4,
+                        "Profession": 6,
+                        "Thirst": 0
+                    },
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 22,
+                        "Items": [],
+                        "Location": 4,
+                        "Profession": 6,
+                        "Thirst": 0
+                    }
+                ],
+                "Pos": {
+                    "X": 1723.7875000000001,
+                    "Y": 183.23333333333335
+                },
+                "Selected": false,
+                "Weight": 2,
+                "Zombies": null
+            },
+            {
+                "Id": 7,
+                "Items": [3, 3, 3, 3, 3, 5, 5, 5, 11, 10],
+                "Name": "Store 1",
+                "People": [
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 9,
+                        "Items": [
+                            6
+                        ],
+                        "Location": 7,
+                        "Profession": 6,
+                        "Thirst": 0
+                    }
+                ],
+                "Pos": {
+                    "X": 2209.754166666667,
+                    "Y": 291.7791666666667
+                },
+                "Selected": false,
+                "Weight": 3,
+                "Zombies": null
+            },
+            {
+                "Id": 56,
+                "Items": [1, 1, 1, 2, 2, 2],
+                "Name": "Police Station",
+                "People": [
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 7,
+                        "Items": [
+                            1,
+                            3,
+                            5
+                        ],
+                        "Location": 56,
+                        "Profession": 0,
+                        "Thirst": 0
+                    },
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 8,
+                        "Items": [
+                            1,
+                            3,
+                            5
+                        ],
+                        "Location": 56,
+                        "Profession": 0,
+                        "Thirst": 0
+                    }
+                ],
+                "Pos": {
+                    "X": 2423.541473882448,
+                    "Y": 1714.4898405898966
+                },
+                "Selected": false,
+                "Weight": 5,
+                "Zombies": null
+            },
+            {
+                "Id": 30,
+                "Items": [10, 11],
+                "Name": "Trailer 5",
+                "People": [
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 61,
+                        "Items": [
+                            1,
+                            5
+                        ],
+                        "Location": 30,
+                        "Profession": 0,
+                        "Thirst": 0
+                    },
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 80,
+                        "Items": [
+                            2,
+                            12,
+                            5
+                        ],
+                        "Location": 30,
+                        "Profession": 2,
+                        "Thirst": 0
+                    }
+                ],
+                "Pos": {
+                    "X": 1718.5655270599211,
+                    "Y": 1223.8287169679775
+                },
+                "Selected": false,
+                "Weight": 2,
+                "Zombies": null
+            },
+            {
+                "Id": 24,
+                "Items": null,
+                "Name": "Trailer Park Office",
+                "People": [],
+                "Pos": {
+                    "X": 1882.1250000000002,
+                    "Y": 444.1416666666667
+                },
+                "Selected": false,
+                "Weight": 3,
+                "Zombies": null
+            },
+            {
+                "Id": 25,
+                "Items": [6],
+                "Name": "Public Restroom 1",
+                "People": [],
+                "Pos": {
+                    "X": 1758.6416666666669,
+                    "Y": 461.0708333333334
+                },
+                "Selected": false,
+                "Weight": 1,
+                "Zombies": null
+            },
+            {
+                "Id": 10,
+                "Items": [3, 3, 3, 3, 3, 5, 5, 5, 5, 5],
+                "Name": "Convenience Store",
+                "People": [
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 17,
+                        "Items": [
+                            5
+                        ],
+                        "Location": 10,
+                        "Profession": 6,
+                        "Thirst": 0
+                    }
+                ],
+                "Pos": {
+                    "X": 2181.8708333333334,
+                    "Y": 495.92500000000007
+                },
+                "Selected": false,
+                "Weight": 3,
+                "Zombies": null
+            },
+            {
+                "Id": 33,
+                "Items": null,
+                "Name": "Trailer 7",
+                "People": [],
+                "Pos": {
+                    "X": 1675.3667613909208,
+                    "Y": 1276.147222055989
+                },
+                "Selected": false,
+                "Weight": 2,
+                "Zombies": null
+            },
+            {
+                "Id": 11,
+                "Items": [10, 10, 11],
+                "Name": "Garage",
+                "People": [
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 1,
+                        "Items": [
+                            7,
+                            10,
+                            3
+                        ],
+                        "Location": 11,
+                        "Profession": 4,
+                        "Thirst": 0
+                    }
+                ],
+                "Pos": {
+                    "X": 2351.1625000000004,
+                    "Y": 557.6666666666667
+                },
+                "Selected": false,
+                "Weight": 2,
+                "Zombies": null
+            },
+            {
+                "Id": 37,
+                "Items": null,
+                "Name": "Trailer 12",
+                "People": [
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 28,
+                        "Items": [
+                            2,
+                            12,
+                            5
+                        ],
+                        "Location": 37,
+                        "Profession": 2,
+                        "Thirst": 0
+                    },
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 68,
+                        "Items": [
+                            3
+                        ],
+                        "Location": 37,
+                        "Profession": 6,
+                        "Thirst": 0
+                    }
+                ],
+                "Pos": {
+                    "X": 1593.7690929050316,
+                    "Y": 1579.405430331566
+                },
+                "Selected": false,
+                "Weight": 2,
+                "Zombies": null
+            },
+            {
+                "Id": 62,
+                "Items": null,
+                "Name": "House 14",
+                "People": [
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 52,
+                        "Items": [
+                            7,
+                            10
+                        ],
+                        "Location": 62,
+                        "Profession": 4,
+                        "Thirst": 0
+                    },
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 53,
+                        "Items": [
+                            14
+                        ],
+                        "Location": 62,
+                        "Profession": 5,
+                        "Thirst": 0
+                    },
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 54,
+                        "Items": [
+                            3
+                        ],
+                        "Location": 62,
+                        "Profession": 6,
+                        "Thirst": 0
+                    }
+                ],
+                "Pos": {
+                    "X": 1884.5185808150547,
+                    "Y": 1994.1115729604744
+                },
+                "Selected": false,
+                "Weight": 4,
+                "Zombies": null
+            },
+            {
+                "Id": 26,
+                "Items": null,
+                "Name": "Trailer 1",
+                "People": [
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 55,
+                        "Items": [
+                            7
+                        ],
+                        "Location": 26,
+                        "Profession": 1,
+                        "Thirst": 0
+                    },
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 56,
+                        "Items": [
+                            3
+                        ],
+                        "Location": 26,
+                        "Profession": 6,
+                        "Thirst": 0
+                    }
+                ],
+                "Pos": {
+                    "X": 1884.6407817429665,
+                    "Y": 720.0855816269325
+                },
+                "Selected": false,
+                "Weight": 2,
+                "Zombies": null
+            },
+            {
+                "Id": 0,
+                "Items": [3, 5],
+                "Name": "Broadcast Tower",
+                "People": [
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 69,
+                        "Items": [
+                            7,
+                            5
+                        ],
+                        "Location": 0,
+                        "Profession": 1,
+                        "Thirst": 0
+                    }
+                ],
+                "Pos": {
+                    "X": 57.75833333333334,
+                    "Y": 339.57916666666665
+                },
+                "Selected": false,
+                "Weight": 6,
+                "Zombies": null
+            },
+            {
+                "Id": 13,
+                "Items": null,
+                "Name": "Water Treatment Plant",
+                "People": [
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 0,
+                        "Items": [
+                            7,
+                            10,
+                            3,
+                            5
+                        ],
+                        "Location": 13,
+                        "Profession": 4,
+                        "Thirst": 0
+                    }
+                ],
+                "Pos": {
+                    "X": 2854.0583333333334,
+                    "Y": 55.76666666666667
+                },
+                "Selected": false,
+                "Weight": 3,
+                "Zombies": null
+            },
+            {
+                "Id": 23,
+                "Items": null,
+                "Name": "Office 2",
+                "People": [],
+                "Pos": {
+                    "X": 1934.904166666667,
+                    "Y": 1073.5083333333334
+                },
+                "Selected": false,
+                "Weight": 3,
+                "Zombies": null
             },
             {
                 "Id": 61,
-                "Name": "House 13",
-                "Selected": false,
-                "Weight": 4,
-                "People": null,
-                "Zombies": null,
                 "Items": null,
+                "Name": "House 13",
+                "People": [],
                 "Pos": {
                     "X": 2075.073136043867,
                     "Y": 2127.547760249164
-                }
+                },
+                "Selected": false,
+                "Weight": 4,
+                "Zombies": null
+            },
+            {
+                "Id": 15,
+                "Items": [4, 7, 10],
+                "Name": "Dock 1",
+                "People": [],
+                "Pos": {
+                    "X": 3221.520833333334,
+                    "Y": 58.75416666666668
+                },
+                "Selected": false,
+                "Weight": 1,
+                "Zombies": null
+            },
+            {
+                "Id": 43,
+                "Items": null,
+                "Name": "Trailer 16",
+                "People": [
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 67,
+                        "Items": [
+                            3
+                        ],
+                        "Location": 43,
+                        "Profession": 6,
+                        "Thirst": 0
+                    }
+                ],
+                "Pos": {
+                    "X": 1531.3708758275868,
+                    "Y": 1936.8687578776107
+                },
+                "Selected": false,
+                "Weight": 2,
+                "Zombies": null
+            },
+            {
+                "Id": 2,
+                "Items": [6, 6, 6, 9],
+                "Name": "Scrapyard",
+                "People": [],
+                "Pos": {
+                    "X": 1396.1583333333335,
+                    "Y": 135.43333333333337
+                },
+                "Selected": false,
+                "Weight": 1,
+                "Zombies": null
+            },
+            {
+                "Id": 20,
+                "Items": [8],
+                "Name": "Resort",
+                "People": [],
+                "Pos": {
+                    "X": 2012.5791666666669,
+                    "Y": 805.6291666666668
+                },
+                "Selected": false,
+                "Weight": 3,
+                "Zombies": null
+            },
+            {
+                "Id": 18,
+                "Items": null,
+                "Name": "Center Park",
+                "People": [],
+                "Pos": {
+                    "X": 2693.729166666667,
+                    "Y": 632.3541666666667
+                },
+                "Selected": false,
+                "Weight": 0,
+                "Zombies": null
+            },
+            {
+                "Id": 57,
+                "Items": [
+                    3,
+                    7,
+                    7,
+                    7,
+                    10
+                ],
+                "Name": "Fire Station",
+                "People": [
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 29,
+                        "Items": [
+                            7
+                        ],
+                        "Location": 57,
+                        "Profession": 1,
+                        "Thirst": 0
+                    },
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 30,
+                        "Items": [
+                            7
+                        ],
+                        "Location": 57,
+                        "Profession": 1,
+                        "Thirst": 0
+                    }
+                ],
+                "Pos": {
+                    "X": 2363.0632019458476,
+                    "Y": 1764.4084142518525
+                },
+                "Selected": false,
+                "Weight": 3,
+                "Zombies": null
+            },
+            {
+                "Id": 17,
+                "Items": [4],
+                "Name": "Overlook Park",
+                "People": [],
+                "Pos": {
+                    "X": 2793.3125000000005,
+                    "Y": 908.2
+                },
+                "Selected": false,
+                "Weight": 0,
+                "Zombies": null
+            },
+            {
+                "Id": 12,
+                "Items": null,
+                "Name": "Mysterious Edifice",
+                "People": [
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 73,
+                        "Items": [],
+                        "Location": 12,
+                        "Profession": 6,
+                        "Thirst": 0
+                    }
+                ],
+                "Pos": {
+                    "X": 2085.275,
+                    "Y": 603.475
+                },
+                "Selected": false,
+                "Weight": 5,
+                "Zombies": null
+            },
+            {
+                "Id": 45,
+                "Items": [9, 1, 2],
+                "Name": "House 2",
+                "People": [
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 35,
+                        "Items": [
+                            7,
+                            5
+                        ],
+                        "Location": 45,
+                        "Profession": 1,
+                        "Thirst": 0
+                    },
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 36,
+                        "Items": [
+                            7,
+                            6
+                        ],
+                        "Location": 45,
+                        "Profession": 1,
+                        "Thirst": 0
+                    }
+                ],
+                "Pos": {
+                    "X": 2688.013917033772,
+                    "Y": 1085.7696863063209
+                },
+                "Selected": false,
+                "Weight": 4,
+                "Zombies": null
+            },
+            {
+                "Id": 58,
+                "Items": [7, 7, 7, 7, 10, 10, 11, 11],
+                "Name": "Hardware Store",
+                "People": [
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 5,
+                        "Items": [
+                            5
+                        ],
+                        "Location": 58,
+                        "Profession": 6,
+                        "Thirst": 0
+                    },
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 6,
+                        "Items": [
+                            5
+                        ],
+                        "Location": 58,
+                        "Profession": 6,
+                        "Thirst": 0
+                    }
+                ],
+                "Pos": {
+                    "X": 2365.9431196571145,
+                    "Y": 1840.2462473152086
+                },
+                "Selected": false,
+                "Weight": 3,
+                "Zombies": null
+            },
+            {
+                "Id": 51,
+                "Items": null,
+                "Name": "House 8",
+                "People": [
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 47,
+                        "Items": [
+                            2,
+                            5
+                        ],
+                        "Location": 51,
+                        "Profession": 2,
+                        "Thirst": 0
+                    },
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 48,
+                        "Items": [
+                            3,
+                            5
+                        ],
+                        "Location": 51,
+                        "Profession": 6,
+                        "Thirst": 0
+                    }
+                ],
+                "Pos": {
+                    "X": 2519.5387309246707,
+                    "Y": 1588.6269621551544
+                },
+                "Selected": false,
+                "Weight": 4,
+                "Zombies": null
+            },
+            {
+                "Id": 39,
+                "Items": null,
+                "Name": "Trailer 14",
+                "People": [
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 66,
+                        "Items": [
+                            3,
+                            6
+                        ],
+                        "Location": 39,
+                        "Profession": 6,
+                        "Thirst": 0
+                    }
+                ],
+                "Pos": {
+                    "X": 1497.2918495775975,
+                    "Y": 1657.6431948209774
+                },
+                "Selected": false,
+                "Weight": 2,
+                "Zombies": null
+            },
+            {
+                "Id": 55,
+                "Items": null,
+                "Name": "House 12",
+                "People": [
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 70,
+                        "Items": [
+                            3
+                        ],
+                        "Location": 55,
+                        "Profession": 6,
+                        "Thirst": 0
+                    }
+                ],
+                "Pos": {
+                    "X": 2145.6294147452127,
+                    "Y": 1605.4264821375432
+                },
+                "Selected": false,
+                "Weight": 4,
+                "Zombies": null
+            },
+            {
+                "Id": 6,
+                "Items": [3, 3, 3, 3, 3, 3, 5, 5, 5, 5, 5],
+                "Name": "Restaurant 1",
+                "People": [
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 12,
+                        "Items": [
+                            3
+                        ],
+                        "Location": 6,
+                        "Profession": 6,
+                        "Thirst": 0
+                    },
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 13,
+                        "Items": [
+                            5,
+                            6
+                        ],
+                        "Location": 6,
+                        "Profession": 6,
+                        "Thirst": 0
+                    }
+                ],
+                "Pos": {
+                    "X": 2203.779166666667,
+                    "Y": 184.22916666666669
+                },
+                "Selected": false,
+                "Weight": 3,
+                "Zombies": null
+            },
+            {
+                "Id": 35,
+                "Items": null,
+                "Name": "Trailer 10",
+                "People": [
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 62,
+                        "Items": [],
+                        "Location": 35,
+                        "Profession": 6,
+                        "Thirst": 0
+                    },
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 63,
+                        "Items": [],
+                        "Location": 35,
+                        "Profession": 6,
+                        "Thirst": 0
+                    }
+                ],
+                "Pos": {
+                    "X": 1610.0886266022092,
+                    "Y": 1432.6227510348124
+                },
+                "Selected": false,
+                "Weight": 2,
+                "Zombies": null
+            },
+            {
+                "Id": 40,
+                "Items": null,
+                "Name": "Trailer 15",
+                "People": [],
+                "Pos": {
+                    "X": 1906.7201508626779,
+                    "Y": 1211.2559495746416
+                },
+                "Selected": false,
+                "Weight": 2,
+                "Zombies": null
+            },
+            {
+                "Id": 63,
+                "Items": null,
+                "Name": "House 15",
+                "People": [],
+                "Pos": {
+                    "X": 1790.9212551988874,
+                    "Y": 1970.1122586999188
+                },
+                "Selected": false,
+                "Weight": 4,
+                "Zombies": null
+            },
+            {
+                "Id": 22,
+                "Items": null,
+                "Name": "Office 1",
+                "People": [
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 72,
+                        "Items": [
+                            7,
+                            10,
+                            3
+                        ],
+                        "Location": 22,
+                        "Profession": 4,
+                        "Thirst": 0
+                    }
+                ],
+                "Pos": {
+                    "X": 1962.7875000000001,
+                    "Y": 954.0083333333334
+                },
+                "Selected": false,
+                "Weight": 3,
+                "Zombies": null
+            },
+            {
+                "Id": 50,
+                "Items": null,
+                "Name": "House 7",
+                "People": [
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 44,
+                        "Items": [
+                            7,
+                            10,
+                            5
+                        ],
+                        "Location": 50,
+                        "Profession": 4,
+                        "Thirst": 0
+                    },
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 45,
+                        "Items": [
+                            6
+                        ],
+                        "Location": 50,
+                        "Profession": 6,
+                        "Thirst": 0
+                    },
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 46,
+                        "Items": [
+                            14,
+                            5
+                        ],
+                        "Location": 50,
+                        "Profession": 5,
+                        "Thirst": 0
+                    }
+                ],
+                "Pos": {
+                    "X": 2532.498360625371,
+                    "Y": 1514.2290879474317
+                },
+                "Selected": false,
+                "Weight": 4,
+                "Zombies": null
+            },
+            {
+                "Id": 31,
+                "Items": [11],
+                "Name": "Trailer 6",
+                "People": [],
+                "Pos": {
+                    "X": 1772.3239910035659,
+                    "Y": 1254.0678529362779
+                },
+                "Selected": false,
+                "Weight": 2,
+                "Zombies": null
+            },
+            {
+                "Id": 41,
+                "Items": null,
+                "Name": "Public Restroom 2",
+                "People": [
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 76,
+                        "Items": [
+                            2,
+                            3
+                        ],
+                        "Location": 41,
+                        "Profession": 2,
+                        "Thirst": 0
+                    },
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 82,
+                        "Items": [
+                            5
+                        ],
+                        "Location": 41,
+                        "Profession": 6,
+                        "Thirst": 0
+                    }
+                ],
+                "Pos": {
+                    "X": 1438.2535364966304,
+                    "Y": 1769.000012989956
+                },
+                "Selected": false,
+                "Weight": 1,
+                "Zombies": null
+            },
+            {
+                "Id": 29,
+                "Items": null,
+                "Name": "Trailer 4",
+                "People": [
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 60,
+                        "Items": [
+                            7,
+                            10
+                        ],
+                        "Location": 29,
+                        "Profession": 4,
+                        "Thirst": 0
+                    }
+                ],
+                "Pos": {
+                    "X": 1768.9640870070882,
+                    "Y": 1130.473855482435
+                },
+                "Selected": false,
+                "Weight": 2,
+                "Zombies": null
+            },
+            {
+                "Id": 47,
+                "Items": null,
+                "Name": "House 4",
+                "People": [
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 39,
+                        "Items": [
+                            2,
+                            13,
+                            5
+                        ],
+                        "Location": 47,
+                        "Profession": 2,
+                        "Thirst": 0
+                    },
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 40,
+                        "Items": [
+                            2
+                        ],
+                        "Location": 47,
+                        "Profession": 2,
+                        "Thirst": 0
+                    },
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 41,
+                        "Items": [],
+                        "Location": 47,
+                        "Profession": 6,
+                        "Thirst": 0
+                    }
+                ],
+                "Pos": {
+                    "X": 2640.0152885126604,
+                    "Y": 1298.7152458876415
+                },
+                "Selected": false,
+                "Weight": 4,
+                "Zombies": null
+            },
+            {
+                "Id": 59,
+                "Items": [14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14],
+                "Name": "Church",
+                "People": [
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 4,
+                        "Items": [
+                            14,
+                            5
+                        ],
+                        "Location": 59,
+                        "Profession": 5,
+                        "Thirst": 0
+                    }
+                ],
+                "Pos": {
+                    "X": 2377.942776787392,
+                    "Y": 1897.8446015405423
+                },
+                "Selected": false,
+                "Weight": 2,
+                "Zombies": null
+            },
+            {
+                "Id": 9,
+                "Items": [8, 8, 8, 8, 8, 8],
+                "Name": "Gas Station",
+                "People": [
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 16,
+                        "Items": [
+                            5
+                        ],
+                        "Location": 9,
+                        "Profession": 6,
+                        "Thirst": 0
+                    },
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 74,
+                        "Items": [
+                            3
+                        ],
+                        "Location": 9,
+                        "Profession": 6,
+                        "Thirst": 0
+                    }
+                ],
+                "Pos": {
+                    "X": 2101.2083333333335,
+                    "Y": 464.0583333333334
+                },
+                "Selected": false,
+                "Weight": 0,
+                "Zombies": null
+            },
+            {
+                "Id": 48,
+                "Items": null,
+                "Name": "House 5",
+                "People": [
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 42,
+                        "Items": [
+                            5,
+                            6
+                        ],
+                        "Location": 48,
+                        "Profession": 6,
+                        "Thirst": 0
+                    },
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 43,
+                        "Items": [],
+                        "Location": 48,
+                        "Profession": 6,
+                        "Thirst": 0
+                    }
+                ],
+                "Pos": {
+                    "X": 2617.455933107738,
+                    "Y": 1387.9926949369085
+                },
+                "Selected": false,
+                "Weight": 4,
+                "Zombies": null
+            },
+            {
+                "Id": 38,
+                "Items": null,
+                "Name": "Trailer 13",
+                "People": [],
+                "Pos": {
+                    "X": 1511.6914381339311,
+                    "Y": 1604.364717162544
+                },
+                "Selected": false,
+                "Weight": 2,
+                "Zombies": null
+            },
+            {
+                "Id": 3,
+                "Items": [7, 7,7 ,7, 7, 10, 11],
+                "Name": "Warehouse 1",
+                "People": [
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 18,
+                        "Items": [
+                            7,
+                            10,
+                            6
+                        ],
+                        "Location": 3,
+                        "Profession": 4,
+                        "Thirst": 0
+                    },
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 19,
+                        "Items": [
+                            5
+                        ],
+                        "Location": 3,
+                        "Profession": 6,
+                        "Thirst": 0
+                    },
+                    {
+                        "Health": 100,
+                        "Hunger": 0,
+                        "ID": 20,
+                        "Items": [
+                            3
+                        ],
+                        "Location": 3,
+                        "Profession": 6,
+                        "Thirst": 0
+                    }
+                ],
+                "Pos": {
+                    "X": 1632.1708333333336,
+                    "Y": 143.4
+                },
+                "Selected": false,
+                "Weight": 2,
+                "Zombies": null
             }
-        ],
-        "Edges": []
+        ]
     }
 }
