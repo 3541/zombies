@@ -85,10 +85,10 @@ func entry() {
 		panic(err)
 	}
 
-	consolasSmall, err := loadFont("consola.ttf", 16)
-	if err != nil {
-		panic(err)
-	}
+	/*	consolasSmall, err := loadFont("consola.ttf", 16)
+		if err != nil {
+			panic(err)
+		}*/
 
 	mapImage, err := loadImage("vantage.png")
 	if err != nil {
@@ -96,7 +96,7 @@ func entry() {
 	}
 	mapSprite := pixel.NewSprite(mapImage, mapImage.Bounds())
 
-	g := vis.NewMapGraph(window, draw, text.NewAtlas(consolasSmall, text.ASCII), pixel.R(0, 0, mapImage.Bounds().W(), mapImage.Bounds().H()))
+	g := vis.NewMapGraph(window, draw, text.NewAtlas(consolas, text.ASCII), pixel.R(0, 0, mapImage.Bounds().W(), mapImage.Bounds().H()))
 
 	// Load and parse the map
 	s, _ := ioutil.ReadFile("./map.json")

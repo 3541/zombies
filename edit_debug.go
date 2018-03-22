@@ -83,7 +83,7 @@ func editGraph(camera pixel.Matrix) {
 			if v == nil {
 				editor.currentState = Input
 				editor.input = &inputState{"Vertex name: ", CreateVertex, new(bytes.Buffer)}
-				editor.tempVertex = editor.g.NewPositionedNode("", pos.X, pos.Y)
+				editor.tempVertex = editor.g.NewPositionedNode("", pos.X, pos.Y, -1)
 				editor.statusText.Clear()
 				editor.statusText.WriteString(editor.input.prompt)
 			} else {
@@ -112,9 +112,16 @@ func editGraph(camera pixel.Matrix) {
 		editor.input.buffer.WriteString(t)
 		editor.statusText.WriteString(t)
 	case CreateVertex:
-		n := editor.g.NewPositionedNode(editor.input.buffer.String(), editor.tempVertex.Pos.X, editor.tempVertex.Pos.Y)
-		editor.g.AddNode(n)
-		editor.currentState = Main
+		if editor.tempVertex.Weight != -1 {
+			n := editor.g.NewPositionedNode(editor.input.buffer.String(), editor.tempVertex.Pos.X, editor.tempVertex.Pos.Y, editor.tempVertex.Weight)
+			editor.g.AddNode(n)
+			editor.currentState = Main
+			editor.tempVertex = nil
+		} else {
+			editor.input = &inputState{"Vertex weight: ", CreateVertex, new(bytes.Buffer)}
+			editor.statusText.Clear()
+			editor.statusText.WriteString(editor.input.prompt)
+		}
 	case Selected:
 		if clicked {
 			cv := clickedVertex(pos)

@@ -5,6 +5,7 @@ package vis
 import (
 	"encoding/json"
 	"fmt"
+	"strconv"
 
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/imdraw"
@@ -20,9 +21,14 @@ type PositionedNode struct {
 	Id       int
 	Name     string
 	Selected bool
+	Weight   int
 
 	// Store the name pre-rendered
 	renderedName *text.Text
+
+	People  []*Person
+	Zombies []*Zombie
+	Items   []Item
 
 	Pos pixel.Vec
 }
@@ -32,17 +38,14 @@ func (n PositionedNode) ID() int {
 	return n.Id
 }
 
-// Yes, this is awful, I know.
-// Render the text multiple times in order to reposition to center on the vertex.
+// Pre-render the vertex labels
 func (n *PositionedNode) RenderName(atlas *text.Atlas) {
 	n.renderedName = text.New(n.Pos, atlas)
 	n.renderedName.Color = colornames.Black
-	fmt.Fprint(n.renderedName, n.Name)
-	n.renderedName.Orig = n.renderedName.Orig.Sub(n.renderedName.Dot.Sub(n.renderedName.Orig).ScaledXY(pixel.V(0.5, 1)))
-	fmt.Fprintln(n.renderedName)
-	n.renderedName.Orig = n.renderedName.Orig.Add(n.renderedName.Dot.Sub(n.renderedName.Orig).ScaledXY(pixel.V(0, 0.25)))
-	n.renderedName.Clear()
-	fmt.Fprint(n.renderedName, n.Name)
+	n.renderedName.Dot.X -= n.renderedName.BoundsOf(n.Name).W() / 2
+	fmt.Fprintln(n.renderedName, n.Name)
+	n.renderedName.Dot.X -= n.renderedName.BoundsOf(strconv.Itoa(n.Weight)).W() / 2
+	fmt.Fprint(n.renderedName, n.Weight)
 }
 
 // Extends simple.Undirected graph, adding handles to graphics things
@@ -60,11 +63,11 @@ type MapGraph struct {
 }
 
 func NewMapGraph(window *pixelgl.Window, draw *imdraw.IMDraw, atlas *text.Atlas, bounds pixel.Rect) *MapGraph {
-	return &MapGraph{simple.NewUndirectedGraph(0, -1), window, draw, atlas, bounds, (40.0 / 3840) * window.Bounds().H(), true}
+	return &MapGraph{simple.NewUndirectedGraph(0, -1), window, draw, atlas, bounds, (50.0 / bounds.W()) * bounds.H(), true}
 }
 
-func (g *MapGraph) NewPositionedNode(name string, x float64, y float64) *PositionedNode {
-	n := &PositionedNode{g.UndirectedGraph.NewNodeID(), name, false, nil, pixel.V(x, y)}
+func (g *MapGraph) NewPositionedNode(name string, x float64, y float64, w int) *PositionedNode {
+	n := &PositionedNode{g.UndirectedGraph.NewNodeID(), name, false, w, nil, make([]*Person, 5), make([]*Zombie, 5), make([]Item, 2), pixel.V(x, y)}
 	n.RenderName(g.atlas)
 	return n
 }
