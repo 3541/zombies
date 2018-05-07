@@ -22,8 +22,8 @@ import (
 type PositionedNode struct {
 	Id       int
 	Name     string
-	Selected bool
-	Weight   int
+	Selected bool // Used only for map editor
+	Weight   int  // How difficult it is to attack this vertex
 
 	// Store the name pre-rendered
 	renderedName *text.Text
@@ -44,9 +44,11 @@ func (n PositionedNode) ID() int {
 func (n *PositionedNode) RenderName(atlas *text.Atlas) {
 	n.renderedName = text.New(n.Pos, atlas)
 	n.renderedName.Color = colornames.Black
+	// Write to a buffer so that the size can be checked for centering purposes
 	var w bytes.Buffer
 	w.WriteString(n.Name)
 	if len(n.Items) > 0 {
+		// Prevent double-prinitng of item duplicates.
 		seen := make([]bool, N_ITEMS)
 		seen[n.Items[0]] = true
 		w.WriteString(fmt.Sprintf(" (%s", n.Items[0]))
@@ -59,38 +61,51 @@ func (n *PositionedNode) RenderName(atlas *text.Atlas) {
 		w.WriteString(")")
 	}
 	s := w.String()
+	// Center text
 	n.renderedName.Dot.X -= n.renderedName.BoundsOf(s).W() / 2
 	fmt.Fprintln(n.renderedName, s)
 	n.renderedName.Dot.X -= n.renderedName.BoundsOf(strconv.Itoa(n.Weight)).W() / 2
 	fmt.Fprintln(n.renderedName, n.Weight)
 }
 
-// Extends simple.Undirected graph, adding handles to graphics things
-type MapGraph struct {
-	*simple.UndirectedGraph
-
+// Encapsulates graphics handles and such.
+type VWindow struct {
 	window     *pixelgl.Window
 	draw       *imdraw.IMDraw
 	atlas      *text.Atlas
 	StatusText *text.Text
-	Bounds     pixel.Rect
 
 	VertexSize float64
 
-	entities uint
-
-	Changed bool
+	Graph *MapGraph
 }
 
-func NewMapGraph(window *pixelgl.Window, draw *imdraw.IMDraw, atlas *text.Atlas, bounds pixel.Rect) *MapGraph {
-	t := text.New(pixel.V(10, window.Bounds().H()-50), atlas)
+func NewVWindow(window *pixelgl.Window, draw *imdraw.IMDraw, statusAtlas *text.Atlas, labelAtlas *text.Atlas, bounds pixel.Rect) *VWindow {
+	t := text.New(pixel.V(10, window.Bounds().H()-20), statusAtlas)
 	t.Color = colornames.Black
 	t.WriteString("Welcome!\n")
 	t.WriteString("Press 's' to see the status of all people currently alive.\n")
 	t.WriteString("Press 'k' to see a key detailing the shortened item names.\n")
 	t.WriteString("Press 'c' to clear the status text.\n")
 	t.WriteString("Use the arrow keys to move the camera, the '.' key to zoom, and the ',' key to zoom out.\n")
-	return &MapGraph{simple.NewUndirectedGraph(0, -1), window, draw, atlas, t, bounds, (50.0 / bounds.W()) * bounds.H(), 0, true}
+
+	return &VWindow{window, draw, statusAtlas, t, (25.0 / bounds.W()) * window.Bounds().H(), NewMapGraph(labelAtlas, bounds)}
+}
+
+// Extends simple.Undirected graph, adding display-related things
+type MapGraph struct {
+	*simple.UndirectedGraph
+
+	atlas  *text.Atlas
+	Bounds pixel.Rect
+
+	entities uint
+
+	Changed bool
+}
+
+func NewMapGraph(atlas *text.Atlas, bounds pixel.Rect) *MapGraph {
+	return &MapGraph{simple.NewUndirectedGraph(0, -1), atlas, bounds, 0, true}
 }
 
 func (g *MapGraph) NewPositionedNode(name string, x float64, y float64, w int) *PositionedNode {
@@ -203,20 +218,20 @@ func (g *MapGraph) NewPositionedNode(name string, x float64, y float64, w int) *
 	}
 }*/
 
-func (g *MapGraph) PrintEntityStatus() {
-	g.StatusText.Clear()
-	for _, v := range g.Nodes() {
+func (w *VWindow) PrintEntityStatus() {
+	w.StatusText.Clear()
+	for _, v := range w.Graph.Nodes() {
 		for _, p := range v.People {
-			fmt.Fprintf(g.StatusText, "%d (%s) is at %s with ", p.ID, p.Profession, strings.ToUpper(v.Name))
+			fmt.Fprintf(w.StatusText, "%d (%s) is at %s with ", p.ID, p.Profession, strings.ToUpper(v.Name))
 			if len(p.Items) > 0 {
-				g.StatusText.WriteString(p.Items[0].StringLong())
+				w.StatusText.WriteString(p.Items[0].StringLong())
 				for _, i := range p.Items[1:] {
-					fmt.Fprintf(g.StatusText, ", %s", i.StringLong())
+					fmt.Fprintf(w.StatusText, ", %s", i.StringLong())
 				}
 			} else {
-				g.StatusText.WriteString("NOTHING")
+				w.StatusText.WriteString("NOTHING")
 			}
-			fmt.Fprintln(g.StatusText)
+			fmt.Fprintln(w.StatusText)
 		}
 	}
 }
@@ -235,13 +250,16 @@ func (g *MapGraph) GetVertexByName(name string) *PositionedNode {
 	return nil
 }
 
-// Allows re-rendering only when the graph is actually Changed
 func (g *MapGraph) AddNode(n graph.Node) {
 	g.UndirectedGraph.AddNode(n)
+	// Allows re-rendering only when the graph is actually Changed
 	g.Changed = true
 }
 
-// Return a vertex, asserting that it is a PositionedNode
+/*
+** Return a vertex, asserting that it is a PositionedNode
+** because the Go type system is elegant and well-designed
+ */
 func (g *MapGraph) Node(id int) *PositionedNode {
 	return g.UndirectedGraph.Node(id).(*PositionedNode)
 }
@@ -257,8 +275,10 @@ func (g *MapGraph) Nodes() []*PositionedNode {
 	return ret
 }
 
-// Returns edges, asserting that they are all concretely typed
-// Necessary for nice serialization
+/*
+** Returns edges, asserting that they are all concretely typed
+** Necessary for nice serialization
+ */
 func (g *MapGraph) Edges() []*simple.Edge {
 	edges := g.UndirectedGraph.Edges()
 	ret := make([]*simple.Edge, len(edges))
@@ -273,70 +293,75 @@ func (g *MapGraph) AddEdge(from *PositionedNode, to *PositionedNode, weight floa
 	g.SetEdge(simple.Edge{simple.Node(from.ID()), simple.Node(to.ID()), weight})
 }
 
-func (g *MapGraph) Draw() {
-	if g.Changed {
-		g.draw.Reset()
-		g.draw.Clear()
-		g.draw.Color = colornames.Lightslategray
-		for _, n := range g.Nodes() {
+func (w *VWindow) Draw() {
+	if w.Graph.Changed {
+		w.draw.Reset()
+		w.draw.Clear()
+		w.draw.Color = colornames.Lightslategray
+		for _, n := range w.Graph.Nodes() {
 			// Draw vertex
 			if len(n.Zombies) > 0 {
-				g.draw.Color = colornames.Red
-				g.draw.Push(n.Pos)
-				g.draw.Circle(g.VertexSize+2, float64(2*len(n.Zombies)))
-				g.draw.Color = colornames.Lightslategray
+				w.draw.Color = colornames.Red
+				w.draw.Push(n.Pos)
+				w.draw.Circle(w.VertexSize+2, float64(2*len(n.Zombies)))
+				w.draw.Color = colornames.Lightslategray
 			}
 			if len(n.People) > 0 {
-				g.draw.Color = colornames.Green
-				g.draw.Push(n.Pos)
-				g.draw.Circle(g.VertexSize+4, float64(2*len(n.People)))
-				g.draw.Color = colornames.Lightslategray
+				w.draw.Color = colornames.Green
+				w.draw.Push(n.Pos)
+				w.draw.Circle(w.VertexSize+4, float64(2*len(n.People)))
+				w.draw.Color = colornames.Lightslategray
 			}
-			g.draw.Push(n.Pos)
+			w.draw.Push(n.Pos)
 			if n.Selected {
-				g.draw.Circle(g.VertexSize, 4)
+				w.draw.Circle(w.VertexSize, 4)
 			} else {
-				g.draw.Circle(g.VertexSize, 0)
+				w.draw.Circle(w.VertexSize, 0)
 			}
 
 			// Draw edges from that vertex
-			for _, t := range g.From(n) {
+			for _, t := range w.Graph.From(n) {
 				t := t.(*PositionedNode)
-				g.draw.Push(n.Pos)
-				g.draw.Push(t.Pos)
-				w, _ := g.Weight(n, t)
-				g.draw.Line(w * 2)
+				w.draw.Push(n.Pos)
+				w.draw.Push(t.Pos)
+				weight, _ := w.Graph.Weight(n, t)
+				w.draw.Line(weight * 2)
 			}
 		}
 
-		g.draw.Push(pixel.V(0, 0))
-		g.draw.Push(pixel.V(g.Bounds.W(), g.Bounds.H()))
-		g.draw.Rectangle(2)
+		w.draw.Push(pixel.V(0, 0))
+		w.draw.Push(pixel.V(w.Graph.Bounds.W(), w.Graph.Bounds.H()))
+		w.draw.Rectangle(2)
 
-		g.Changed = false
+		w.Graph.Changed = false
 	}
 
-	g.draw.Draw(g.window)
+	w.draw.Draw(w.window)
 
 	// Draw vertex names
-	for _, n := range g.Nodes() {
-		n.renderedName.Draw(g.window, pixel.IM)
+	for _, n := range w.Graph.Nodes() {
+		n.renderedName.Draw(w.window, pixel.IM)
 	}
 }
 
-// Go's JSON library and type system conspire to make
-// it impossible to serialize anything unexported
-// as well as impossible to deserialize anything
-// to a field without a concrete type.
-// Hence, these monstrosities.
+/*
+** Go's JSON library and type system conspire to make
+** it impossible to serialize anything unexported
+** as well as impossible to deserialize anything
+** to a field without a concrete type.
+** Hence, these monstrosities.
+ */
 
-// An intermediate type to allow easier serialization
-// and deserialization of the embedded UndirectedGraph.
+/*
+** An intermediate type to allow easier serialization
+** and deserialization of the embedded UndirectedGraph.
+ */
 type intermediateUndirectedGraph struct {
 	Nodes []*PositionedNode
 	Edges []*simple.Edge
 }
 
+// Wow it's actually not ridiculous
 func (g *MapGraph) Serialize() ([]byte, error) {
 	return json.Marshal(struct {
 		G *MapGraph
@@ -344,6 +369,7 @@ func (g *MapGraph) Serialize() ([]byte, error) {
 	}{g, intermediateUndirectedGraph{g.Nodes(), g.Edges()}})
 }
 
+// This is a disaster but there genuinely seems to be no real good way to do it.
 func (g *MapGraph) Deserialize(data []byte) error {
 	p := make(map[string]json.RawMessage)
 	err := json.Unmarshal(data, &p)

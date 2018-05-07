@@ -61,9 +61,9 @@ func entry() {
 	width, height := monitor.Size()
 
 	config := pixelgl.WindowConfig{
-		Title:  "American Politics Simulator 2018",
+		Title:  "Black Friday Simulator 2019",
 		Bounds: pixel.R(0, 0, width, height),
-		//VSync:  true,
+		VSync:  true,
 	}
 
 	window, err := pixelgl.NewWindow(config)
@@ -85,10 +85,10 @@ func entry() {
 		panic(err)
 	}
 
-	/*	consolasSmall, err := loadFont("consola.ttf", 16)
-		if err != nil {
-			panic(err)
-		}*/
+	consolasScaled, err := loadFont("consola.ttf", 14)
+	if err != nil {
+		panic(err)
+	}
 
 	/*	mapImage, err := loadImage("vantage.png")
 		if err != nil {
@@ -96,18 +96,18 @@ func entry() {
 		}*/
 	//mapSprite := pixel.NewSprite(mapImage, mapImage.Bounds())
 
-	g := vis.NewMapGraph(window, draw, text.NewAtlas(consolas, text.ASCII), pixel.R(0, 0, 1000, 1000))
+	w := vis.NewVWindow(window, draw, text.NewAtlas(consolasScaled, text.ASCII), text.NewAtlas(consolas, text.ASCII), pixel.R(0, 0, 1000, 1000))
 
 	// Load and parse the map
 	s, _ := ioutil.ReadFile("./map.json")
 
-	err = g.Deserialize(s)
+	err = w.Graph.Deserialize(s)
 	if err != nil {
 		panic(err)
 	}
 
 	// Start the map editor when running a debug build (see edit_release.go and edit_debug.go)
-	editInit(window, g, consolas)
+	editInit(window, w.Graph, consolasScaled)
 
 	// To track framerate
 	frames := 0
@@ -159,45 +159,45 @@ func entry() {
 		}
 
 		if window.JustPressed(pixelgl.KeyS) {
-			g.PrintEntityStatus()
+			w.PrintEntityStatus()
 		}
 
 		if window.JustPressed(pixelgl.KeyC) {
-			g.StatusText.Clear()
+			w.StatusText.Clear()
 		}
 
 		if window.JustPressed(pixelgl.KeyK) {
-			g.StatusText.WriteString("CS: CHAINSAW\n")
-			g.StatusText.WriteString("PSTL: PISTOL\n")
-			g.StatusText.WriteString("RFL: RIFLE\n")
-			g.StatusText.WriteString("EB: ENERGY BAR\n")
-			g.StatusText.WriteString("WS: WATER SOURCE\n")
-			g.StatusText.WriteString("WB: WATER BOTTLE\n")
-			g.StatusText.WriteString("RP: RUSTY PIPE\n")
-			g.StatusText.WriteString("HTCHT: HATCHET\n")
-			g.StatusText.WriteString("IAF: IMPROVISED AEROSOL FLAMETHROWER\n")
-			g.StatusText.WriteString("BDG: BANDAGE\n")
-			g.StatusText.WriteString("WRNC: WRENCH\n")
-			g.StatusText.WriteString("HS: HACKSAW\n")
-			g.StatusText.WriteString("RPG: ROCKET-PROPELLED GRENADE LAUNCHER\n")
-			g.StatusText.WriteString("ATGM: ANTI-TANK GUIDED MISSILE\n")
-			g.StatusText.WriteString("HW: HOLY WATER\n")
+			w.StatusText.WriteString("CS: CHAINSAW\n")
+			w.StatusText.WriteString("PSTL: PISTOL\n")
+			w.StatusText.WriteString("RFL: RIFLE\n")
+			w.StatusText.WriteString("EB: ENERGY BAR\n")
+			w.StatusText.WriteString("WS: WATER SOURCE\n")
+			w.StatusText.WriteString("WB: WATER BOTTLE\n")
+			w.StatusText.WriteString("RP: RUSTY PIPE\n")
+			w.StatusText.WriteString("HTCHT: HATCHET\n")
+			w.StatusText.WriteString("IAF: IMPROVISED AEROSOL FLAMETHROWER\n")
+			w.StatusText.WriteString("BDG: BANDAGE\n")
+			w.StatusText.WriteString("WRNC: WRENCH\n")
+			w.StatusText.WriteString("HS: HACKSAW\n")
+			w.StatusText.WriteString("RPG: ROCKET-PROPELLED GRENADE LAUNCHER\n")
+			w.StatusText.WriteString("ATGM: ANTI-TANK GUIDED MISSILE\n")
+			w.StatusText.WriteString("HW: HOLY WATER\n")
 		}
 
 		// Scale viewport to match height of map space
-		viewportScale := window.Bounds().H() / g.Bounds.H()
+		viewportScale := window.Bounds().H() / w.Graph.Bounds.H()
 		camera := pixel.IM.Scaled(window.Bounds().Min, viewportScale).Moved(window.Bounds().Center().Sub(cameraPosition)).Scaled(window.Bounds().Center(), cameraZoom)
 		window.SetMatrix(camera)
 
 		window.Clear(colornames.White)
 
 		//	mapSprite.Draw(window, pixel.IM.Moved(mapImage.Bounds().Center()))
-		g.Draw()
+		w.Draw()
 
 		// untransform so fps counter appears in bottom-left of viewport regardless of pan/zoom
 		window.SetMatrix(pixel.IM)
 		logText.Draw(window, pixel.IM)
-		g.StatusText.Draw(window, pixel.IM)
+		w.StatusText.Draw(window, pixel.IM)
 
 		// Do map editor things, if in a debug build
 		editGraph(camera)
@@ -214,7 +214,7 @@ func entry() {
 		default:
 		}
 	}
-	editEnd(window, g)
+	editEnd(window, w.Graph)
 }
 
 func main() {
