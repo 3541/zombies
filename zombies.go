@@ -19,6 +19,7 @@ import (
 
 	"github.com/golang/freetype/truetype"
 
+	"github.com/3541/zombies/behavior"
 	"github.com/3541/zombies/vis"
 )
 
@@ -97,6 +98,7 @@ func entry() {
 	//mapSprite := pixel.NewSprite(mapImage, mapImage.Bounds())
 
 	w := vis.NewVWindow(window, draw, text.NewAtlas(consolasScaled, text.ASCII), text.NewAtlas(consolas, text.ASCII), pixel.R(0, 0, 1000, 1000))
+	go behavior.Start(w.Log)
 
 	// Load and parse the map
 	s, _ := ioutil.ReadFile("./map.json")
@@ -201,6 +203,12 @@ func entry() {
 
 		// Do map editor things, if in a debug build
 		editGraph(camera)
+
+		select {
+		case t := <-w.Log:
+			fmt.Fprintln(w.StatusText, t)
+		default:
+		}
 
 		window.Update()
 
