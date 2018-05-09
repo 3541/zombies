@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+	"sync"
 
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/imdraw"
@@ -19,6 +20,7 @@ import (
 	"github.com/gonum/graph/simple"
 )
 
+// Extends graph.Node with necessary properties
 type PositionedNode struct {
 	Id       int
 	Name     string
@@ -93,6 +95,12 @@ func NewVWindow(window *pixelgl.Window, draw *imdraw.IMDraw, statusAtlas *text.A
 	return &VWindow{window, draw, statusAtlas, t, make(chan string), (25.0 / bounds.W()) * window.Bounds().H(), NewMapGraph(labelAtlas, bounds)}
 }
 
+// Implements io.Writer for VWindow, allowing fmt.Println(w, ...) & co.
+func (w *VWindow) Write(p []byte) (int, error) {
+	fmt.Fprint(w.StatusText, string(p))
+	return len(p), nil
+}
+
 // Extends simple.Undirected graph, adding display-related things
 type MapGraph struct {
 	*simple.UndirectedGraph
@@ -102,11 +110,13 @@ type MapGraph struct {
 
 	entities uint
 
+	Mutex *sync.Mutex
+
 	Changed bool
 }
 
 func NewMapGraph(atlas *text.Atlas, bounds pixel.Rect) *MapGraph {
-	return &MapGraph{simple.NewUndirectedGraph(0, -1), atlas, bounds, 0, true}
+	return &MapGraph{simple.NewUndirectedGraph(0, -1), atlas, bounds, 0, &sync.Mutex{}, true}
 }
 
 func (g *MapGraph) NewPositionedNode(name string, x float64, y float64, w int) *PositionedNode {
@@ -219,27 +229,31 @@ func (g *MapGraph) NewPositionedNode(name string, x float64, y float64, w int) *
 	}
 }*/
 
+// Show a status string for all entities
 func (w *VWindow) PrintEntityStatus() {
-	w.StatusText.Clear()
+	//	w.StatusText.Clear()
 	for _, v := range w.Graph.Nodes() {
 		for _, p := range v.People {
-			fmt.Fprintf(w.StatusText, "%d (%s) is at %s with ", p.ID, p.Profession, strings.ToUpper(v.Name))
+			fmt.Fprintf(w, "%d (%s) is at %s with ", p.ID, p.Profession, strings.ToUpper(v.Name))
 			if len(p.Items) > 0 {
-				w.StatusText.WriteString(p.Items[0].StringLong())
+				fmt.Fprint(w, p.Items[0].StringLong())
 				for _, i := range p.Items[1:] {
-					fmt.Fprintf(w.StatusText, ", %s", i.StringLong())
+					fmt.Fprintf(w, ", %s", i.StringLong())
 				}
 			} else {
-				w.StatusText.WriteString("NOTHING")
+				fmt.Fprint(w, "NOTHING")
 			}
-			fmt.Fprintln(w.StatusText)
+			fmt.Fprintln(w)
 		}
 	}
 }
 
+// Add a new person to a vertex
 func (g *MapGraph) AddPerson(job Profession, vertex *PositionedNode) {
+	g.Mutex.Lock()
 	vertex.People = append(vertex.People, NewPerson(g.entities, job, vertex.ID()))
 	g.entities++
+	g.Mutex.Lock()
 }
 
 func (g *MapGraph) GetVertexByName(name string) *PositionedNode {
@@ -252,9 +266,11 @@ func (g *MapGraph) GetVertexByName(name string) *PositionedNode {
 }
 
 func (g *MapGraph) AddNode(n graph.Node) {
+	g.Mutex.Lock()
 	g.UndirectedGraph.AddNode(n)
 	// Allows re-rendering only when the graph is actually Changed
 	g.Changed = true
+	g.Mutex.Unlock()
 }
 
 /*
@@ -291,7 +307,9 @@ func (g *MapGraph) Edges() []*simple.Edge {
 }
 
 func (g *MapGraph) AddEdge(from *PositionedNode, to *PositionedNode, weight float64) {
+	g.Mutex.Lock()
 	g.SetEdge(simple.Edge{simple.Node(from.ID()), simple.Node(to.ID()), weight})
+	g.Mutex.Unlock()
 }
 
 func (w *VWindow) Draw() {

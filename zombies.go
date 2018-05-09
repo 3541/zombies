@@ -169,21 +169,21 @@ func entry() {
 		}
 
 		if window.JustPressed(pixelgl.KeyK) {
-			w.StatusText.WriteString("CS: CHAINSAW\n")
-			w.StatusText.WriteString("PSTL: PISTOL\n")
-			w.StatusText.WriteString("RFL: RIFLE\n")
-			w.StatusText.WriteString("EB: ENERGY BAR\n")
-			w.StatusText.WriteString("WS: WATER SOURCE\n")
-			w.StatusText.WriteString("WB: WATER BOTTLE\n")
-			w.StatusText.WriteString("RP: RUSTY PIPE\n")
-			w.StatusText.WriteString("HTCHT: HATCHET\n")
-			w.StatusText.WriteString("IAF: IMPROVISED AEROSOL FLAMETHROWER\n")
-			w.StatusText.WriteString("BDG: BANDAGE\n")
-			w.StatusText.WriteString("WRNC: WRENCH\n")
-			w.StatusText.WriteString("HS: HACKSAW\n")
-			w.StatusText.WriteString("RPG: ROCKET-PROPELLED GRENADE LAUNCHER\n")
-			w.StatusText.WriteString("ATGM: ANTI-TANK GUIDED MISSILE\n")
-			w.StatusText.WriteString("HW: HOLY WATER\n")
+			fmt.Fprintln(w, "CS: CHAINSAW")
+			fmt.Fprintln(w, "PSTL: PISTOL")
+			fmt.Fprintln(w, "RFL: RIFLE")
+			fmt.Fprintln(w, "EB: ENERGY BAR")
+			fmt.Fprintln(w, "WS: WATER SOURCE")
+			fmt.Fprintln(w, "WB: WATER BOTTLE")
+			fmt.Fprintln(w, "RP: RUSTY PIPE")
+			fmt.Fprintln(w, "HTCHT: HATCHET")
+			fmt.Fprintln(w, "IAF: IMPROVISED AEROSOL FLAMETHROWER")
+			fmt.Fprintln(w, "BDG: BANDAGE")
+			fmt.Fprintln(w, "WRNC: WRENCH")
+			fmt.Fprintln(w, "HS: HACKSAW")
+			fmt.Fprintln(w, "RPG: ROCKET-PROPELLED GRENADE LAUNCHER")
+			fmt.Fprintln(w, "ATGM: ANTI-TANK GUIDED MISSILE")
+			fmt.Fprintln(w, "HW: HOLY WATER")
 		}
 
 		// Scale viewport to match height of map space
@@ -206,7 +206,7 @@ func entry() {
 
 		select {
 		case t := <-w.Log:
-			fmt.Fprintln(w.StatusText, t)
+			fmt.Fprintln(w, t)
 		default:
 		}
 
