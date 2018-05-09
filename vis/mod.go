@@ -90,7 +90,12 @@ func NewVWindow(window *pixelgl.Window, draw *imdraw.IMDraw, statusAtlas *text.A
 	t.WriteString("Press 'c' to clear the status text.\n")
 	t.WriteString("Use the arrow keys to move the camera, the '.' key to zoom, and the ',' key to zoom out.\n")
 
-	return &VWindow{window, draw, statusAtlas, t, make(chan string), (25.0 / bounds.W()) * window.Bounds().H(), NewMapGraph(labelAtlas, bounds)}
+	return &VWindow{window, draw, statusAtlas, t, make(chan string) /*(25.0 / bounds.W()) * window.Bounds().H()*/, 25, NewMapGraph(labelAtlas, bounds)}
+}
+
+func (w *VWindow) Write(p []byte) (int, error) {
+	fmt.Fprint(w.StatusText, string(p))
+	return len(p), nil
 }
 
 // Extends simple.Undirected graph, adding display-related things

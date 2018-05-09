@@ -206,7 +206,7 @@ func entry() {
 
 		select {
 		case t := <-w.Log:
-			fmt.Fprintln(w.StatusText, t)
+			fmt.Fprintln(w, t)
 		default:
 		}
 
