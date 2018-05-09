@@ -92,7 +92,7 @@ func NewVWindow(window *pixelgl.Window, draw *imdraw.IMDraw, statusAtlas *text.A
 	t.WriteString("Press 'c' to clear the status text.\n")
 	t.WriteString("Use the arrow keys to move the camera, the '.' key to zoom, and the ',' key to zoom out.\n")
 
-	return &VWindow{window, draw, statusAtlas, t, make(chan string), (25.0 / bounds.W()) * window.Bounds().H(), NewMapGraph(labelAtlas, bounds)}
+	return &VWindow{window, draw, statusAtlas, t, make(chan string) /*(25.0 / bounds.W()) * window.Bounds().H()*/, 25, NewMapGraph(labelAtlas, bounds)}
 }
 
 // Implements io.Writer for VWindow, allowing fmt.Println(w, ...) & co.
