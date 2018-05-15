@@ -10,6 +10,7 @@ import (
 	"strings"
 	"sync"
 
+	"github.com/3541/zombies/entity"
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/imdraw"
 	"github.com/faiface/pixel/pixelgl"
@@ -30,9 +31,9 @@ type PositionedNode struct {
 	// Store the name pre-rendered
 	renderedName *text.Text
 
-	People  []*Person
-	Zombies []*Zombie
-	Items   []Item
+	People  []*entity.Person
+	Zombies []*entity.Zombie
+	Items   []entity.Item
 
 	Pos pixel.Vec
 }
@@ -51,7 +52,7 @@ func (n *PositionedNode) RenderName(atlas *text.Atlas) {
 	w.WriteString(n.Name)
 	if len(n.Items) > 0 {
 		// Prevent double-prinitng of item duplicates.
-		seen := make([]bool, N_ITEMS)
+		seen := make([]bool, entity.N_ITEMS)
 		seen[n.Items[0]] = true
 		w.WriteString(fmt.Sprintf(" (%s", n.Items[0]))
 		for _, i := range n.Items[1:] {
@@ -95,9 +96,17 @@ func NewVWindow(window *pixelgl.Window, draw *imdraw.IMDraw, statusAtlas *text.A
 	return &VWindow{window, draw, statusAtlas, t, make(chan string) /*(25.0 / bounds.W()) * window.Bounds().H()*/, 25, NewMapGraph(labelAtlas, bounds)}
 }
 
-// Implements io.Writer for VWindow, allowing fmt.Println(w, ...) & co.
+// Implements io.Writer for VWindow, allowing fmt.Println(w, ...) & co., with correct wrapping and scrolling.
 func (w *VWindow) Write(p []byte) (int, error) {
-	fmt.Fprint(w.StatusText, string(p))
+	if w.StatusText.Bounds().H() >= w.window.Bounds().H()/2 {
+		w.StatusText.Clear()
+	}
+	if w.StatusText.BoundsOf(string(p)).W() >= w.window.Bounds().W()/2 {
+		fmt.Fprintln(w.StatusText, string(p[:100]))
+		fmt.Fprint(w.StatusText, string(p[100:]))
+	} else {
+		fmt.Fprint(w.StatusText, string(p))
+	}
 	return len(p), nil
 }
 
@@ -120,7 +129,7 @@ func NewMapGraph(atlas *text.Atlas, bounds pixel.Rect) *MapGraph {
 }
 
 func (g *MapGraph) NewPositionedNode(name string, x float64, y float64, w int) *PositionedNode {
-	n := &PositionedNode{g.UndirectedGraph.NewNodeID(), name, false, w, nil, make([]*Person, 5), make([]*Zombie, 5), make([]Item, 0, 2), pixel.V(x, y)}
+	n := &PositionedNode{g.UndirectedGraph.NewNodeID(), name, false, w, nil, make([]*entity.Person, 5), make([]*entity.Zombie, 5), make([]entity.Item, 0, 2), pixel.V(x, y)}
 	n.RenderName(g.atlas)
 	return n
 }
@@ -249,9 +258,9 @@ func (w *VWindow) PrintEntityStatus() {
 }
 
 // Add a new person to a vertex
-func (g *MapGraph) AddPerson(job Profession, vertex *PositionedNode) {
+func (g *MapGraph) AddPerson(job entity.Profession, vertex *PositionedNode) {
 	g.Mutex.Lock()
-	vertex.People = append(vertex.People, NewPerson(g.entities, job, vertex.ID()))
+	vertex.People = append(vertex.People, entity.NewPerson(g.entities, job, vertex.ID()))
 	g.entities++
 	g.Mutex.Lock()
 }

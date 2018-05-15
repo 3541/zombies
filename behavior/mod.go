@@ -2,11 +2,18 @@
 
 package behavior
 
-import "time"
+import (
+	"time"
 
-func Start(log chan string) {
+	"github.com/3541/zombies/vis"
+)
+
+func Start(log chan string, graph *vis.MapGraph) {
 	tick := time.NewTicker(time.Second)
 	for _ = range tick.C {
-		log <- time.Now().String()
+		/*for v := range graph.Nodes() {
+
+		}*/
+
 	}
 }

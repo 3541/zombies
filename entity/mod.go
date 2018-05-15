@@ -1,7 +1,9 @@
-package vis
+package entity
 
 import (
 	"math/rand"
+
+	"github.com/3541/zombies/vis"
 )
 
 // Data structures representing people, zombies, and items
@@ -151,6 +153,9 @@ type Person struct {
 func (p *Person) AddItem(items ...Item) {
 	p.Items = append(p.Items, items...)
 }
+
+// TODO: FIX BEHAVIOR
+func (p *Person) Live(graph *vis.MapGraph) {}
 
 func NewPerson(id uint, job Profession, pos int) *Person {
 	ret := &Person{id, 100, 0, 0, make([]Item, 0, 2), job, pos}

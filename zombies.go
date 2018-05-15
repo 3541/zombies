@@ -98,7 +98,7 @@ func entry() {
 	//mapSprite := pixel.NewSprite(mapImage, mapImage.Bounds())
 
 	w := vis.NewVWindow(window, draw, text.NewAtlas(consolasScaled, text.ASCII), text.NewAtlas(consolas, text.ASCII), pixel.R(0, 0, 1000, 1000))
-	go behavior.Start(w.Log)
+	go behavior.Start(w.Log, w.Graph)
 
 	// Load and parse the map
 	s, _ := ioutil.ReadFile("./map.json")
