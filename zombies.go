@@ -19,7 +19,6 @@ import (
 
 	"github.com/golang/freetype/truetype"
 
-	"github.com/3541/zombies/behavior"
 	"github.com/3541/zombies/vis"
 )
 
@@ -98,7 +97,6 @@ func entry() {
 	//mapSprite := pixel.NewSprite(mapImage, mapImage.Bounds())
 
 	w := vis.NewVWindow(window, draw, text.NewAtlas(consolasScaled, text.ASCII), text.NewAtlas(consolas, text.ASCII), pixel.R(0, 0, 1000, 1000))
-	go behavior.Start(w.Log, w.Graph)
 
 	// Load and parse the map
 	s, _ := ioutil.ReadFile("./map.json")
@@ -110,6 +108,7 @@ func entry() {
 
 	// Start the map editor when running a debug build (see edit_release.go and edit_debug.go)
 	editInit(window, w.Graph, consolasScaled)
+	w.Graph.StartEntities()
 
 	// To track framerate
 	frames := 0
@@ -205,7 +204,7 @@ func entry() {
 		editGraph(camera)
 
 		select {
-		case t := <-w.Log:
+		case t := <-w.Graph.Log:
 			fmt.Fprintln(w, t)
 		default:
 		}

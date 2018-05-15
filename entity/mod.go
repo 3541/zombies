@@ -2,8 +2,6 @@ package entity
 
 import (
 	"math/rand"
-
-	"github.com/3541/zombies/vis"
 )
 
 // Data structures representing people, zombies, and items
@@ -141,7 +139,7 @@ func (p Profession) String() string {
 }
 
 type Person struct {
-	ID         uint
+	Id         uint
 	Health     uint
 	Hunger     uint
 	Thirst     uint
@@ -153,9 +151,6 @@ type Person struct {
 func (p *Person) AddItem(items ...Item) {
 	p.Items = append(p.Items, items...)
 }
-
-// TODO: FIX BEHAVIOR
-func (p *Person) Live(graph *vis.MapGraph) {}
 
 func NewPerson(id uint, job Profession, pos int) *Person {
 	ret := &Person{id, 100, 0, 0, make([]Item, 0, 2), job, pos}
@@ -200,13 +195,17 @@ func NewPerson(id uint, job Profession, pos int) *Person {
 }
 
 type Zombie struct {
-	ID       uint
+	Id       uint
 	Health   int
 	Hunger   int
 	Holding  Item
 	Location int
 }
 
-func NewZombie(victim Person) *Zombie {
-	return &Zombie{victim.ID, 100, 0, victim.Items[rand.Intn(len(victim.Items))], victim.Location}
+func NewZombieFromPerson(victim Person) *Zombie {
+	return &Zombie{victim.Id, 100, 0, victim.Items[rand.Intn(len(victim.Items))], victim.Location}
+}
+
+func NewZombie(id int, location int) *Zombie {
+	return &Zombie{id, 100, 0, nil, location}
 }
