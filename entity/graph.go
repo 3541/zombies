@@ -205,9 +205,13 @@ func (g *MapGraph) AddPerson(job Profession, vertex *PositionedNode) {
 
 func (g *MapGraph) AddNewZombie(vertex *PositionedNode) {
 	g.Mutex.Lock()
-	vertex.Zombies = append(vertex.Zombies, NewZombie(g.entities, vertex.ID()))
+	z := NewZombie(g.entities, vertex.ID())
+	vertex.Zombies = append(vertex.Zombies, z)
 	g.entities++
 	g.Changed = true
+
+	go z.Unlive(g)
+
 	g.Mutex.Unlock()
 }
 
@@ -221,6 +225,9 @@ func (g *MapGraph) InfectPerson(p *Person) {
 	n := g.Node(p.Location)
 	n.Zombies = append(n.Zombies, z)
 	g.Changed = true
+
+	go z.Unlive(g)
+
 	g.Mutex.Unlock()
 }
 
@@ -241,6 +248,22 @@ func (g *MapGraph) RemovePerson(p *Person) {
 
 }
 
+func (g *MapGraph) RemoveZombie(z *Zombie) {
+	n := g.Node(z.Location)
+	i := 0
+	for _, v := range n.Zombies {
+		if v.Id == z.Id {
+			break
+		}
+		i++
+	}
+	if len(n.Zombies) > 1 {
+		n.Zombies = append(n.Zombies[:i], n.Zombies[i+1:]...)
+	} else {
+		n.Zombies = n.Zombies[:0]
+	}
+
+}
 func (g *MapGraph) StartEntities() {
 	for _, v := range g.Nodes() {
 		for _, p := range v.People {
@@ -248,7 +271,7 @@ func (g *MapGraph) StartEntities() {
 		}
 
 		for _, z := range v.Zombies {
-			go z.UnLive(g)
+			go z.Unlive(g)
 		}
 	}
 }
