@@ -61,7 +61,7 @@ func entry() {
 	width, height := monitor.Size()
 
 	config := pixelgl.WindowConfig{
-		Title:  "Black Friday Simulator 2019",
+		Title:  "Coffee Van Simulator 2019",
 		Bounds: pixel.R(0, 0, width, height),
 		VSync:  true,
 	}
@@ -105,6 +105,15 @@ func entry() {
 	if err != nil {
 		panic(err)
 	}
+
+	/*	w.Graph.AddNode(w.Graph.NewPositionedNode("TEST 1", 500, 500, 2))
+		w.Graph.AddNode(w.Graph.NewPositionedNode("TEST 2", 200, 500, 2))
+		//	w.Graph.AddNode(w.Graph.NewPositionedNode("TEST 3", 400, 300, 2))
+		w.Graph.AddEdge(w.Graph.GetVertexByName("TEST 1"), w.Graph.GetVertexByName("TEST 2"), 2)
+		//	w.Graph.AddEdge(w.Graph.GetVertexByName("TEST 2"), w.Graph.GetVertexByName("TEST 3"), 2)
+		//	w.Graph.AddEdge(w.Graph.GetVertexByName("TEST 3"), w.Graph.GetVertexByName("TEST 1"), 2)
+
+		w.Graph.AddPerson(entity.Priest, w.Graph.GetVertexByName("TEST 1"))*/
 
 	// Start the map editor when running a debug build (see edit_release.go and edit_debug.go)
 	editInit(window, w.Graph, consolasScaled)

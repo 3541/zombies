@@ -19,7 +19,7 @@ func editGraph(camera pixel.Matrix) {
 	if window.JustPressed(pixelgl.MouseButtonLeft) {
 		clicked := clickedVertex(camera.Unproject(window.MousePosition()))
 		// If the vertex already has people, convert them all to zombies
-		if len(clickedVertex.People) > 0 {
+		if len(clicked.People) > 0 {
 		} else {
 
 		}

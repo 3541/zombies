@@ -26,6 +26,7 @@ const (
 	RPG
 	ATGM
 	HolyWater
+	Nothing
 )
 
 func (i Item) StringLong() string {
@@ -60,6 +61,8 @@ func (i Item) StringLong() string {
 		return "ANTI-TANK GUIDED MISSILE"
 	case HolyWater:
 		return "HOLY WATER"
+	case Nothing:
+		return "NOTHING"
 	default:
 		return "INVALID ITEM"
 	}
@@ -146,6 +149,7 @@ type Person struct {
 	Items      []Item
 	Profession Profession
 	Location   int
+	Kill       chan string
 }
 
 func (p *Person) AddItem(items ...Item) {
@@ -153,7 +157,7 @@ func (p *Person) AddItem(items ...Item) {
 }
 
 func NewPerson(id uint, job Profession, pos int) *Person {
-	ret := &Person{id, 100, 0, 0, make([]Item, 0, 2), job, pos}
+	ret := &Person{id, 100, 0, 0, make([]Item, 0, 2), job, pos, make(chan string)}
 	switch job {
 	case Police:
 		ret.AddItem(Pistol)
@@ -200,12 +204,13 @@ type Zombie struct {
 	Hunger   int
 	Holding  Item
 	Location int
+	Kill     chan string
 }
 
-func NewZombieFromPerson(victim Person) *Zombie {
-	return &Zombie{victim.Id, 100, 0, victim.Items[rand.Intn(len(victim.Items))], victim.Location}
+func NewZombieFromPerson(victim *Person) *Zombie {
+	return &Zombie{victim.Id, 100, 0, victim.Items[rand.Intn(len(victim.Items))], victim.Location, make(chan string)}
 }
 
-func NewZombie(id int, location int) *Zombie {
-	return &Zombie{id, 100, 0, nil, location}
+func NewZombie(id uint, location int) *Zombie {
+	return &Zombie{id, 100, 0, Nothing, location, make(chan string)}
 }

@@ -68,8 +68,9 @@ func (n *PositionedNode) RenderName(atlas *text.Atlas) {
 type MapGraph struct {
 	*simple.UndirectedGraph
 
-	atlas  *text.Atlas
-	Bounds pixel.Rect
+	atlas      *text.Atlas
+	Bounds     pixel.Rect
+	VertexSize float64
 
 	entities uint
 
@@ -80,12 +81,12 @@ type MapGraph struct {
 	Changed bool
 }
 
-func NewMapGraph(atlas *text.Atlas, bounds pixel.Rect) *MapGraph {
-	return &MapGraph{simple.NewUndirectedGraph(0, -1), atlas, bounds, 0, make(chan string, 20), &sync.Mutex{}, true}
+func NewMapGraph(atlas *text.Atlas, bounds pixel.Rect, vertexSize float64) *MapGraph {
+	return &MapGraph{simple.NewUndirectedGraph(0, -1), atlas, bounds, vertexSize, 0, make(chan string, 20), &sync.Mutex{}, true}
 }
 
 func (g *MapGraph) NewPositionedNode(name string, x float64, y float64, w int) *PositionedNode {
-	n := &PositionedNode{g.UndirectedGraph.NewNodeID(), name, false, w, nil, make([]*Person, 5), make([]*Zombie, 5), make([]Item, 0, 2), pixel.V(x, y)}
+	n := &PositionedNode{g.UndirectedGraph.NewNodeID(), name, false, w, nil, make([]*Person, 0, 5), make([]*Zombie, 0, 5), make([]Item, 0, 2), pixel.V(x, y)}
 	n.RenderName(g.atlas)
 	return n
 }
@@ -202,7 +203,7 @@ func (g *MapGraph) AddPerson(job Profession, vertex *PositionedNode) {
 	g.Mutex.Unlock()
 }
 
-func (g *MapGraph) AddZombie(vertex *PositionedNode) {
+func (g *MapGraph) AddNewZombie(vertex *PositionedNode) {
 	g.Mutex.Lock()
 	vertex.Zombies = append(vertex.Zombies, NewZombie(g.entities, vertex.ID()))
 	g.entities++
@@ -211,14 +212,24 @@ func (g *MapGraph) AddZombie(vertex *PositionedNode) {
 
 func (g *MapGraph) InfectPerson(p *Person) {
 	g.Mutex.Lock()
+	n := g.Node(p.Location)
 	i := 0
-	for _, v := range g.Node(p.Location) {
+	for _, v := range n.People {
 		if v.Id == p.Id {
 			break
 		}
 	}
 	z := NewZombieFromPerson(p)
 
+	if len(n.People) > 1 {
+		n.People = append(n.People[:i], n.People[i+1:]...)
+	} else {
+		n.People = n.People[:0]
+	}
+	p.Kill <- "INFECTED by ZOMBIE"
+
+	n.Zombies = append(n.Zombies, z)
+	g.Mutex.Unlock()
 }
 
 func (g *MapGraph) StartEntities() {

@@ -21,8 +21,6 @@ type VWindow struct {
 	atlas      *text.Atlas
 	StatusText *text.Text
 
-	VertexSize float64
-
 	Graph *entity.MapGraph
 }
 
@@ -35,7 +33,7 @@ func NewVWindow(window *pixelgl.Window, draw *imdraw.IMDraw, statusAtlas *text.A
 	t.WriteString("Press 'c' to clear the status text.\n")
 	t.WriteString("Use the arrow keys to move the camera, the '.' key to zoom, and the ',' key to zoom out.\n")
 
-	return &VWindow{window, draw, statusAtlas, t /*(25.0 / bounds.W()) * window.Bounds().H()*/, 25, entity.NewMapGraph(labelAtlas, bounds)}
+	return &VWindow{window, draw, statusAtlas, t /*(25.0 / bounds.W()) * window.Bounds().H()*/, entity.NewMapGraph(labelAtlas, bounds, 25)}
 }
 
 // Implements io.Writer for VWindow, allowing fmt.Println(w, ...) & co., with correct wrapping and scrolling.
@@ -81,20 +79,20 @@ func (w *VWindow) Draw() {
 			if len(n.Zombies) > 0 {
 				w.draw.Color = colornames.Red
 				w.draw.Push(n.Pos)
-				w.draw.Circle(w.VertexSize+2, float64(2*len(n.Zombies)))
+				w.draw.Circle(w.Graph.VertexSize+2, float64(2*len(n.Zombies)))
 				w.draw.Color = colornames.Lightslategray
 			}
 			if len(n.People) > 0 {
 				w.draw.Color = colornames.Green
 				w.draw.Push(n.Pos)
-				w.draw.Circle(w.VertexSize+4, float64(2*len(n.People)))
+				w.draw.Circle(w.Graph.VertexSize+4, float64(2*len(n.People)))
 				w.draw.Color = colornames.Lightslategray
 			}
 			w.draw.Push(n.Pos)
 			if n.Selected {
-				w.draw.Circle(w.VertexSize, 4)
+				w.draw.Circle(w.Graph.VertexSize, 4)
 			} else {
-				w.draw.Circle(w.VertexSize, 0)
+				w.draw.Circle(w.Graph.VertexSize, 0)
 			}
 
 			// Draw edges from that vertex

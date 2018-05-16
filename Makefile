@@ -1,4 +1,4 @@
-GO_SRC := $(wildcard **/*.go)
+GO_SRC := $(wildcard **/*.go) $(wildcard *.go)
 BUILD_TYPE ?= debug
 HOST := $(shell uname | tr A-Z a-z)
 TARGET ?= $(HOST)
