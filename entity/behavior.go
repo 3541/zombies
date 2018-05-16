@@ -6,7 +6,13 @@ import (
 	"time"
 )
 
+func pause(t int, unit time.Duration) {
+	<-time.NewTimer(time.Duration(t) * unit).C
+}
+
 func (p *Person) Live(g *MapGraph) {
+	p.Kill = make(chan string, 5)
+	pause(rand.Intn(1000), time.Millisecond)
 	tick := time.NewTicker(500 * time.Millisecond)
 	for _ = range tick.C {
 		//		g.Log <- fmt.Sprintf("%s is at %s with %v", p.Profession, g.Node(p.Location).Name, p.Items)
@@ -18,6 +24,12 @@ func (p *Person) Live(g *MapGraph) {
 		if rand.Intn(100) == 1 {
 			n := g.From(g.Node(p.Location))
 			t := n[rand.Intn(len(n))].(*PositionedNode)
+			// Humans only pay attention to edge weights because zombies are (presumably) too stupid to fortify
+			pause(int(g.Edge(g.Node(p.Location), t).Weight()), time.Second)
+			// Did it die before getting to the next vertex?
+			if p.checkKilled(g) {
+				return
+			}
 			g.Log <- fmt.Sprintf("%s moves from %s to %s", p.Profession, g.Node(p.Location).Name, t.Name)
 			p.moveTo(g, t)
 		}
@@ -27,6 +39,7 @@ func (p *Person) Live(g *MapGraph) {
 func (p *Person) checkKilled(g *MapGraph) bool {
 	select {
 	case reason := <-p.Kill:
+		g.RemovePerson(p)
 		g.Log <- fmt.Sprintf("%s %s at %s", p.Profession, reason, g.Node(p.Location).Name)
 		return true
 	default:
@@ -35,6 +48,7 @@ func (p *Person) checkKilled(g *MapGraph) bool {
 }
 
 func (p *Person) moveTo(g *MapGraph, t *PositionedNode) {
+	g.Mutex.Lock()
 	pn := g.Node(p.Location)
 
 	// Because Go actually doesn't implement this in the standard library
@@ -56,6 +70,7 @@ func (p *Person) moveTo(g *MapGraph, t *PositionedNode) {
 	t.People = append(t.People, p)
 
 	g.Changed = true
+	g.Mutex.Unlock()
 }
 
 func (z *Zombie) UnLive(g *MapGraph) {

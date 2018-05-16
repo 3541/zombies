@@ -157,7 +157,7 @@ func (p *Person) AddItem(items ...Item) {
 }
 
 func NewPerson(id uint, job Profession, pos int) *Person {
-	ret := &Person{id, 100, 0, 0, make([]Item, 0, 2), job, pos, make(chan string)}
+	ret := &Person{id, 100, 0, 0, make([]Item, 0, 2), job, pos, make(chan string, 20)}
 	switch job {
 	case Police:
 		ret.AddItem(Pistol)
@@ -208,9 +208,15 @@ type Zombie struct {
 }
 
 func NewZombieFromPerson(victim *Person) *Zombie {
-	return &Zombie{victim.Id, 100, 0, victim.Items[rand.Intn(len(victim.Items))], victim.Location, make(chan string)}
+	var holding Item
+	if len(victim.Items) > 0 {
+		holding = victim.Items[rand.Intn(len(victim.Items))]
+	} else {
+		holding = Nothing
+	}
+	return &Zombie{victim.Id, 100, 0, holding, victim.Location, make(chan string, 20)}
 }
 
 func NewZombie(id uint, location int) *Zombie {
-	return &Zombie{id, 100, 0, Nothing, location, make(chan string)}
+	return &Zombie{id, 100, 0, Nothing, location, make(chan string, 20)}
 }

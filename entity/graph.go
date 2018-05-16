@@ -207,29 +207,38 @@ func (g *MapGraph) AddNewZombie(vertex *PositionedNode) {
 	g.Mutex.Lock()
 	vertex.Zombies = append(vertex.Zombies, NewZombie(g.entities, vertex.ID()))
 	g.entities++
+	g.Changed = true
 	g.Mutex.Unlock()
 }
 
 func (g *MapGraph) InfectPerson(p *Person) {
 	g.Mutex.Lock()
+
+	z := NewZombieFromPerson(p)
+
+	p.Kill <- "INFECTED by ZOMBIE"
+
+	n := g.Node(p.Location)
+	n.Zombies = append(n.Zombies, z)
+	g.Changed = true
+	g.Mutex.Unlock()
+}
+
+func (g *MapGraph) RemovePerson(p *Person) {
 	n := g.Node(p.Location)
 	i := 0
 	for _, v := range n.People {
 		if v.Id == p.Id {
 			break
 		}
+		i++
 	}
-	z := NewZombieFromPerson(p)
-
 	if len(n.People) > 1 {
 		n.People = append(n.People[:i], n.People[i+1:]...)
 	} else {
 		n.People = n.People[:0]
 	}
-	p.Kill <- "INFECTED by ZOMBIE"
 
-	n.Zombies = append(n.Zombies, z)
-	g.Mutex.Unlock()
 }
 
 func (g *MapGraph) StartEntities() {

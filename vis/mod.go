@@ -79,13 +79,13 @@ func (w *VWindow) Draw() {
 			if len(n.Zombies) > 0 {
 				w.draw.Color = colornames.Red
 				w.draw.Push(n.Pos)
-				w.draw.Circle(w.Graph.VertexSize+2, float64(2*len(n.Zombies)))
+				w.draw.Circle(w.Graph.VertexSize+2+float64(3*len(n.People))+float64(len(n.Zombies)), float64(2*len(n.Zombies)))
 				w.draw.Color = colornames.Lightslategray
 			}
 			if len(n.People) > 0 {
 				w.draw.Color = colornames.Green
 				w.draw.Push(n.Pos)
-				w.draw.Circle(w.Graph.VertexSize+4, float64(2*len(n.People)))
+				w.draw.Circle(w.Graph.VertexSize+4+float64(len(n.People)), float64(2*len(n.People)))
 				w.draw.Color = colornames.Lightslategray
 			}
 			w.draw.Push(n.Pos)
