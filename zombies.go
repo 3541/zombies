@@ -212,10 +212,14 @@ func entry() {
 		// Do map editor things, if in a debug build
 		editGraph(camera)
 
-		select {
-		case t := <-w.Graph.Log:
-			fmt.Fprintln(w, t)
-		default:
+		loop:
+		for {
+			select {
+			case t := <-w.Graph.Log:
+				fmt.Fprintln(w, t)
+			default:
+				break loop
+			}
 		}
 
 		window.Update()
