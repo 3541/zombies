@@ -32,14 +32,14 @@ func (p *Person) Live(g *MapGraph) {
 
 		g.Mutex.Lock()
 
-		p.Hunger += 1
-		p.Thirst += 1
+		p.Hunger++
+		p.Thirst++
 
 		if len(p.Items) < 3 && len(currentNode.Items) > 0 {
 			i := rand.Intn(len(currentNode.Items))
 			if currentNode.Items[i] != Water {
 				p.Items = append(p.Items, currentNode.Items[i])
-				g.Log <- fmt.Sprintf("%s picked up %s at %s", p.Profession, currentNode.Items[i], currentNode.Name)
+				g.Log <- fmt.Sprintf("%s picked up %s at %s", p.Profession, currentNode.Items[i].StringLong(), currentNode.Name)
 				currentNode.Items = append(currentNode.Items[:i], currentNode.Items[i+1:]...)
 				currentNode.RenderName(g.atlas)
 				g.Mutex.Unlock()
@@ -109,17 +109,23 @@ func (z *Zombie) Unlive(g *MapGraph) {
 	pause(rand.Intn(2000), time.Millisecond)
 	tick := time.NewTicker(500 * time.Millisecond)
 	for _ = range tick.C {
+		g.Mutex.RLock()
+		if z.Hunger >= 100 {
+			z.Kill <- "STARVED to DEATH"
+		}
+		g.Mutex.RUnlock()
 		if z.checkKilled(g) {
 			return
 		}
 
 		currentNode := g.Node(z.Location)
 		g.Mutex.Lock()
+		z.Hunger++
 		if z.Holding == Nothing && len(currentNode.Items) > 0 {
 			i := rand.Intn(len(currentNode.Items))
 			if currentNode.Items[i] != Water {
 				z.Holding = currentNode.Items[i]
-				g.Log <- fmt.Sprintf("ZOMBIE picked up %s at %s", currentNode.Items[i], currentNode.Name)
+				g.Log <- fmt.Sprintf("ZOMBIE picked up %s at %s", currentNode.Items[i].StringLong(), currentNode.Name)
 				currentNode.Items = append(currentNode.Items[:i], currentNode.Items[i+1:]...)
 				currentNode.RenderName(g.atlas)
 				g.Mutex.Unlock()

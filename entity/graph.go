@@ -246,6 +246,7 @@ func (g *MapGraph) RemovePerson(p *Person) {
 	} else {
 		n.People = n.People[:0]
 	}
+	g.Changed = true
 	g.Mutex.Unlock()
 }
 
@@ -266,6 +267,7 @@ func (g *MapGraph) RemoveZombie(z *Zombie) {
 	} else {
 		n.Zombies = n.Zombies[:0]
 	}
+	g.Changed = true
 	g.Mutex.Unlock()
 }
 func (g *MapGraph) StartEntities() {
