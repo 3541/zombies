@@ -36,6 +36,15 @@ func (n PositionedNode) ID() int {
 	return n.Id
 }
 
+func (n *PositionedNode) ItemPresent(t Item) bool {
+	for _, i := range n.Items {
+		if i == t {
+			return true
+		}
+	}
+	return false
+}
+
 // Pre-render the vertex labels
 func (n *PositionedNode) RenderName(atlas *text.Atlas) {
 	n.RenderedName = text.New(n.Pos, atlas)
@@ -82,7 +91,7 @@ type MapGraph struct {
 }
 
 func NewMapGraph(atlas *text.Atlas, bounds pixel.Rect, vertexSize float64) *MapGraph {
-	return &MapGraph{simple.NewUndirectedGraph(0, -1), atlas, bounds, vertexSize, 0, make(chan string, 20), &sync.RWMutex{}, true}
+	return &MapGraph{simple.NewUndirectedGraph(0, -1), atlas, bounds, vertexSize, 0, make(chan string, 100), &sync.RWMutex{}, true}
 }
 
 func (g *MapGraph) NewPositionedNode(name string, x float64, y float64, w int) *PositionedNode {
@@ -219,18 +228,16 @@ func (g *MapGraph) InfectPerson(p *Person) {
 
 	p.Kill <- "INFECTED by ZOMBIE"
 
-	g.Mutex.Lock()
 	n := g.Node(p.Location)
 	n.Zombies = append(n.Zombies, z)
 	g.Changed = true
-	g.Mutex.Unlock()
 
 	go z.Unlive(g)
 
 }
 
 func (g *MapGraph) RemovePerson(p *Person) {
-	g.Mutex.RLock()
+	g.Mutex.Lock()
 	n := g.Node(p.Location)
 	i := 0
 	for _, v := range n.People {
@@ -239,8 +246,6 @@ func (g *MapGraph) RemovePerson(p *Person) {
 		}
 		i++
 	}
-	g.Mutex.RUnlock()
-	g.Mutex.Lock()
 	if len(n.People) > 1 {
 		n.People = append(n.People[:i], n.People[i+1:]...)
 	} else {
@@ -251,7 +256,7 @@ func (g *MapGraph) RemovePerson(p *Person) {
 }
 
 func (g *MapGraph) RemoveZombie(z *Zombie) {
-	g.Mutex.RLock()
+	g.Mutex.Lock()
 	n := g.Node(z.Location)
 	i := 0
 	for _, v := range n.Zombies {
@@ -260,8 +265,6 @@ func (g *MapGraph) RemoveZombie(z *Zombie) {
 		}
 		i++
 	}
-	g.Mutex.RUnlock()
-	g.Mutex.Lock()
 	if len(n.Zombies) > 1 {
 		n.Zombies = append(n.Zombies[:i], n.Zombies[i+1:]...)
 	} else {

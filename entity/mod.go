@@ -29,6 +29,43 @@ const (
 	Nothing
 )
 
+func (i Item) Damage() uint {
+	switch i {
+	case Chainsaw:
+		return 45
+	case Pistol:
+		return 50
+	case Rifle:
+		return 60
+	case RustyPipe:
+		return 25
+	case Hatchet:
+		return 30
+	case AerosolFlamethrower:
+		return 20
+	case Wrench:
+		return 20
+	case Hacksaw:
+		return 15
+	case RPG:
+		return 100
+	case ATGM:
+		return 200
+	case HolyWater:
+		return 15
+	default:
+		return 10
+	}
+}
+
+func (i Item) Consumable() bool {
+	if i == EnergyBar || i == WaterBottle || i == AerosolFlamethrower || i == Bandage || i == HolyWater || i == ATGM || i == RPG {
+		return true
+	} else {
+		return false
+	}
+}
+
 func (i Item) StringLong() string {
 	switch i {
 	case Chainsaw:
@@ -101,6 +138,8 @@ func (i Item) String() string {
 		return "ATGM"
 	case HolyWater:
 		return "HW"
+	case Nothing:
+		return "NT"
 	default:
 		return "INVALID ITEM"
 	}
@@ -143,12 +182,13 @@ func (p Profession) String() string {
 
 type Person struct {
 	Id         uint
-	Health     uint
+	Health     int
 	Hunger     uint
 	Thirst     uint
 	Items      []Item
 	Profession Profession
 	Location   int
+	Damage     chan DamageMessage
 	Kill       chan string
 }
 
@@ -157,7 +197,7 @@ func (p *Person) AddItem(items ...Item) {
 }
 
 func NewPerson(id uint, job Profession, pos int) *Person {
-	ret := &Person{id, 100, 0, 0, make([]Item, 0, 2), job, pos, make(chan string, 20)}
+	ret := &Person{id, 100, 0, 0, make([]Item, 0, 2), job, pos, make(chan DamageMessage, 20), make(chan string, 20)}
 	switch job {
 	case Police:
 		ret.AddItem(Pistol)
@@ -198,13 +238,56 @@ func NewPerson(id uint, job Profession, pos int) *Person {
 	return ret
 }
 
+func (p *Person) Holding(t Item) bool {
+	for _, i := range p.Items {
+		if i == t {
+			return true
+		}
+	}
+	return false
+}
+
+func (p *Person) ConsumeItem(t Item) {
+	i := 0
+	for idx, it := range p.Items {
+		if it == t {
+			i = idx
+			break
+		}
+	}
+	p.Items = append(p.Items[:i], p.Items[i+1:]...)
+}
+
+func (p *Person) BestWeapon() Item {
+	if len(p.Items) == 0 {
+		return Nothing
+	}
+	maxDamage := p.Items[0].Damage()
+	best := p.Items[0]
+	for _, i := range p.Items {
+		if i.Damage() > maxDamage {
+			maxDamage = i.Damage()
+			best = i
+		}
+	}
+
+	return best
+}
+
 type Zombie struct {
 	Id       uint
 	Health   int
 	Hunger   int
 	Holding  Item
 	Location int
+	Damage   chan DamageMessage
 	Kill     chan string
+}
+
+type DamageMessage struct {
+	Value    uint
+	Attacker string
+	Item     Item
 }
 
 func NewZombieFromPerson(victim *Person) *Zombie {
@@ -214,9 +297,9 @@ func NewZombieFromPerson(victim *Person) *Zombie {
 	} else {
 		holding = Nothing
 	}
-	return &Zombie{victim.Id, 100, 0, holding, victim.Location, make(chan string, 20)}
+	return &Zombie{victim.Id, 100, 0, holding, victim.Location, make(chan DamageMessage, 100), make(chan string, 20)}
 }
 
 func NewZombie(id uint, location int) *Zombie {
-	return &Zombie{id, 100, 0, Nothing, location, make(chan string, 20)}
+	return &Zombie{id, 100, 0, Nothing, location, make(chan DamageMessage, 100), make(chan string, 20)}
 }
