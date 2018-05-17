@@ -241,15 +241,19 @@ func (g *MapGraph) RemovePerson(p *Person) {
 	n := g.Node(p.Location)
 	i := 0
 	for _, v := range n.People {
-		if v.Id == p.Id {
+		if v == p {
 			break
 		}
 		i++
 	}
+
+	close(p.Kill)
+	close(p.Damage)
+
 	if len(n.People) > 1 {
 		n.People = append(n.People[:i], n.People[i+1:]...)
 	} else {
-		n.People = n.People[:0]
+		n.People = nil
 	}
 	g.Changed = true
 	g.Mutex.Unlock()

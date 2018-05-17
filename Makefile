@@ -3,10 +3,9 @@ BUILD_TYPE ?= debug
 HOST := $(shell uname | tr A-Z a-z)
 TARGET ?= $(HOST)
 ARCH ?= amd64
+FLAGS ?= 
 ifeq ($(BUILD_TYPE),release)
-	FLAGS := -ldflags='-s -w'
-else
-	FLAGS := 
+	FLAGS += -ldflags='-s -w'
 endif
 
 

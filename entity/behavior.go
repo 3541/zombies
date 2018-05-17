@@ -29,17 +29,24 @@ func (p *Person) Live(g *MapGraph) {
 		}
 		g.Mutex.RUnlock()
 
-		select {
-		case m := <-p.Damage:
-			g.Mutex.Lock()
-			p.Health -= int(m.Value)
-			if p.Health <= 0 {
-				p.Kill <- fmt.Sprintf("killed by %s with %s", m.Attacker, m.Item.StringLong())
-			} else {
-				g.Log <- fmt.Sprintf("%s at %s takes %d damage from %s wielding %s. Now at %d HP", p.Profession, g.Node(p.Location).Name, m.Value, m.Attacker, m.Item.StringLong(), p.Health)
+	loop:
+		for {
+			select {
+			case m := <-p.Damage:
+				g.Mutex.Lock()
+				p.Health -= int(m.Value)
+				if p.Health <= 0 {
+					p.Kill <- fmt.Sprintf("killed by %s with %s", m.Attacker, m.Item.StringLong())
+					g.Mutex.Unlock()
+					p.checkKilled(g)
+					return
+				} else {
+					g.Log <- fmt.Sprintf("%s at %s takes %d damage from %s wielding %s. Now at %d HP", p.Profession, g.Node(p.Location).Name, m.Value, m.Attacker, m.Item.StringLong(), p.Health)
+				}
+				g.Mutex.Unlock()
+			default:
+				break loop
 			}
-			g.Mutex.Unlock()
-		default:
 		}
 
 		if p.checkKilled(g) {
@@ -63,11 +70,11 @@ func (p *Person) Live(g *MapGraph) {
 					weakest = i
 				}
 			}
+			g.Mutex.Unlock()
 			currentNode.Zombies[weakest].Damage <- DamageMessage{weapon.Damage(), p.Profession.String(), weapon}
 			if weapon.Consumable() {
 				p.ConsumeItem(weapon)
 			}
-			g.Mutex.Unlock()
 			continue
 		}
 
@@ -117,6 +124,26 @@ func (p *Person) Live(g *MapGraph) {
 			}
 			// Humans only pay attention to edge weights because zombies are (presumably) too stupid to fortify
 			pause(int(g.Edge(g.Node(p.Location), t).Weight()), time.Second)
+
+		loop1:
+			for {
+				select {
+				case m := <-p.Damage:
+					g.Mutex.Lock()
+					p.Health -= int(m.Value)
+					if p.Health <= 0 {
+						p.Kill <- fmt.Sprintf("killed by %s with %s", m.Attacker, m.Item.StringLong())
+						g.Mutex.Unlock()
+						p.checkKilled(g)
+						return
+					} else {
+						g.Log <- fmt.Sprintf("%s at %s takes %d damage from %s wielding %s. Now at %d HP", p.Profession, g.Node(p.Location).Name, m.Value, m.Attacker, m.Item.StringLong(), p.Health)
+					}
+					g.Mutex.Unlock()
+				default:
+					break loop1
+				}
+			}
 			// Did it die before getting to the next vertex?
 			if p.checkKilled(g) {
 				return
@@ -175,17 +202,24 @@ func (z *Zombie) Unlive(g *MapGraph) {
 		g.Mutex.RUnlock()
 
 		// Check for and take any incoming damage, displaying messages required
-		select {
-		case m := <-z.Damage:
-			g.Mutex.Lock()
-			z.Health -= int(m.Value)
-			if z.Health <= 0 {
-				z.Kill <- fmt.Sprintf("killed by %s with %s", m.Attacker, m.Item.StringLong())
-			} else {
-				g.Log <- fmt.Sprintf("ZOMBIE at %s takes %d damage from %s wielding %s. Now at %d HP", g.Node(z.Location).Name, m.Value, m.Attacker, m.Item.StringLong(), z.Health)
+	loop:
+		for {
+			select {
+			case m := <-z.Damage:
+				g.Mutex.Lock()
+				z.Health -= int(m.Value)
+				if z.Health <= 0 {
+					z.Kill <- fmt.Sprintf("killed by %s with %s", m.Attacker, m.Item.StringLong())
+					g.Mutex.Unlock()
+					z.checkKilled(g)
+					return
+				} else {
+					g.Log <- fmt.Sprintf("ZOMBIE at %s takes %d damage from %s wielding %s. Now at %d HP", g.Node(z.Location).Name, m.Value, m.Attacker, m.Item.StringLong(), z.Health)
+				}
+				g.Mutex.Unlock()
+			default:
+				break loop
 			}
-			g.Mutex.Unlock()
-		default:
 		}
 
 		if z.checkKilled(g) {
@@ -204,10 +238,12 @@ func (z *Zombie) Unlive(g *MapGraph) {
 				z.Hunger = 0
 				g.Log <- fmt.Sprintf("ZOMBIE INFECTED %s at %s", t.Profession, currentNode.Name)
 			} else {
+				g.Mutex.Unlock()
 				t.Damage <- DamageMessage{z.Holding.Damage(), "ZOMBIE", z.Holding}
 				if z.Holding.Consumable() {
 					z.Holding = Nothing
 				}
+				g.Mutex.Lock()
 			}
 			g.Mutex.Unlock()
 			continue
@@ -289,6 +325,7 @@ func (z *Zombie) nearestPersonTraverseFirstStep(g *MapGraph) *PositionedNode {
 
 	// Find the nearest person
 	var nearestPerson *PositionedNode
+	nearestPersonDist := ^uint(0)
 	for len(unvisited) > 0 {
 		min := ^uint(0) // uint max value
 		var minvI int
@@ -299,10 +336,11 @@ func (z *Zombie) nearestPersonTraverseFirstStep(g *MapGraph) *PositionedNode {
 		}
 
 		v := unvisited[minvI]
-		if len(v.People) > 0 {
+		if len(v.People) > 0 && distance[v.ID()] < nearestPersonDist {
 			nearestPerson = v
-			break
+			nearestPersonDist = distance[v.ID()]
 		}
+
 		unvisited = append(unvisited[:minvI], unvisited[minvI+1:]...)
 
 		for _, t := range g.From(v) {

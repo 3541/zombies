@@ -31,6 +31,8 @@ func NewVWindow(window *pixelgl.Window, draw *imdraw.IMDraw, statusAtlas *text.A
 	t.WriteString("Press 's' to see the status of all people currently alive.\n")
 	t.WriteString("Press 'k' to see a key detailing the shortened item names.\n")
 	t.WriteString("Press 'c' to clear the status text.\n")
+	t.WriteString("Left-click on a vertex to add a zombie.\n")
+	t.WriteString("Right-click on a vertex to infect all people on that vertex.\n")
 	t.WriteString("Use the arrow keys to move the camera, the '.' key to zoom, and the ',' key to zoom out.\n")
 
 	return &VWindow{window, draw, statusAtlas, t /*(25.0 / bounds.W()) * window.Bounds().H()*/, entity.NewMapGraph(labelAtlas, bounds, 25)}
