@@ -87,7 +87,11 @@ func (z *Zombie) Unlive(g *MapGraph) {
 
 		if len(g.Node(z.Location).People) == 0 {
 			t := z.nearestPersonTraverseFirstStep(g)
-			pause(int(g.Edge(g.Node(z.Location), t).Weight())+t.Weight, time.Second)
+			fortification := 0
+			if len(t.People) > 0 {
+				fortification = t.Weight
+			}
+			pause(int(g.Edge(g.Node(z.Location), t).Weight())+fortification, time.Second)
 			if z.checkKilled(g) {
 				return
 			}
