@@ -16,9 +16,37 @@ func (p *Person) Live(g *MapGraph) {
 	tick := time.NewTicker(500 * time.Millisecond)
 	for _ = range tick.C {
 		//		g.Log <- fmt.Sprintf("%s is at %s with %v", p.Profession, g.Node(p.Location).Name, p.Items)
+		g.Mutex.RLock()
+		if p.Hunger >= 100 {
+			p.Kill <- "STARVED to DEATH"
+		} else if p.Thirst >= 100 {
+			p.Kill <- "died of THIRST"
+		}
+		g.Mutex.RUnlock()
+
 		if p.checkKilled(g) {
 			return
 		}
+
+		currentNode := g.Node(p.Location)
+
+		g.Mutex.Lock()
+
+		p.Hunger += 1
+		p.Thirst += 1
+
+		if len(p.Items) < 3 && len(currentNode.Items) > 0 {
+			i := rand.Intn(len(currentNode.Items))
+			if currentNode.Items[i] != Water {
+				p.Items = append(p.Items, currentNode.Items[i])
+				g.Log <- fmt.Sprintf("%s picked up %s at %s", p.Profession, currentNode.Items[i], currentNode.Name)
+				currentNode.Items = append(currentNode.Items[:i], currentNode.Items[i+1:]...)
+				currentNode.RenderName(g.atlas)
+				g.Mutex.Unlock()
+				continue
+			}
+		}
+		g.Mutex.Unlock()
 
 		if rand.Intn(100) == 1 {
 			g.Mutex.RLock()
@@ -31,7 +59,7 @@ func (p *Person) Live(g *MapGraph) {
 			if p.checkKilled(g) {
 				return
 			}
-			g.Log <- fmt.Sprintf("%s moves from %s to %s", p.Profession, g.Node(p.Location).Name, t.Name)
+			//			g.Log <- fmt.Sprintf("%s moves from %s to %s", p.Profession, g.Node(p.Location).Name, t.Name)
 			p.moveTo(g, t)
 		}
 	}
@@ -85,18 +113,39 @@ func (z *Zombie) Unlive(g *MapGraph) {
 			return
 		}
 
+		currentNode := g.Node(z.Location)
+		g.Mutex.Lock()
+		if z.Holding == Nothing && len(currentNode.Items) > 0 {
+			i := rand.Intn(len(currentNode.Items))
+			if currentNode.Items[i] != Water {
+				z.Holding = currentNode.Items[i]
+				g.Log <- fmt.Sprintf("ZOMBIE picked up %s at %s", currentNode.Items[i], currentNode.Name)
+				currentNode.Items = append(currentNode.Items[:i], currentNode.Items[i+1:]...)
+				currentNode.RenderName(g.atlas)
+				g.Mutex.Unlock()
+				continue
+			}
+
+		}
+		g.Mutex.Unlock()
+
 		if len(g.Node(z.Location).People) == 0 {
 			t := z.nearestPersonTraverseFirstStep(g)
-			fortification := 0
-			if len(t.People) > 0 {
-				fortification = t.Weight
+			if t != nil {
+				fortification := 0
+				if len(t.People) > 0 {
+					fortification = t.Weight
+					g.Log <- fmt.Sprintf("ZOMBIE is trying to break into %s from %s", t.Name, g.Node(z.Location).Name)
+				}
+				pause(int(g.Edge(g.Node(z.Location), t).Weight())+fortification*2, time.Second)
+				if z.checkKilled(g) {
+					return
+				}
+				if len(t.People) > 0 {
+					g.Log <- fmt.Sprintf("ZOMBIE successfully broke into %s from %s", t.Name, g.Node(z.Location).Name)
+				}
+				z.moveTo(g, t)
 			}
-			pause(int(g.Edge(g.Node(z.Location), t).Weight())+fortification, time.Second)
-			if z.checkKilled(g) {
-				return
-			}
-			g.Log <- fmt.Sprintf("ZOMBIE moves from %s to %s", g.Node(z.Location).Name, t.Name)
-			z.moveTo(g, t)
 		}
 	}
 }
@@ -169,9 +218,14 @@ func (z *Zombie) nearestPersonTraverseFirstStep(g *MapGraph) *PositionedNode {
 	}
 
 	// Work back to the first step on that path
-	ret := nearestPerson
-	for previous[ret.ID()] != z.Location {
-		ret = g.Node(previous[ret.ID()])
+	var ret *PositionedNode
+	if nearestPerson != nil {
+		ret = nearestPerson
+		for previous[ret.ID()] != z.Location {
+			ret = g.Node(previous[ret.ID()])
+		}
+	} else {
+		ret = nil
 	}
 	g.Mutex.RUnlock()
 	return ret
