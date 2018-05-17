@@ -16,28 +16,24 @@ func (p *Person) Live(g *MapGraph) {
 	tick := time.NewTicker(500 * time.Millisecond)
 	for _ = range tick.C {
 		//		g.Log <- fmt.Sprintf("%s is at %s with %v", p.Profession, g.Node(p.Location).Name, p.Items)
-		g.Mutex.Lock()
 		if p.checkKilled(g) {
-			g.Mutex.Unlock()
 			return
 		}
 
 		if rand.Intn(100) == 1 {
+			g.Mutex.RLock()
 			n := g.From(g.Node(p.Location))
 			t := n[rand.Intn(len(n))].(*PositionedNode)
+			g.Mutex.RUnlock()
 			// Humans only pay attention to edge weights because zombies are (presumably) too stupid to fortify
-			g.Mutex.Unlock()
 			pause(int(g.Edge(g.Node(p.Location), t).Weight()), time.Second)
-			g.Mutex.Lock()
 			// Did it die before getting to the next vertex?
 			if p.checkKilled(g) {
-				g.Mutex.Unlock()
 				return
 			}
 			g.Log <- fmt.Sprintf("%s moves from %s to %s", p.Profession, g.Node(p.Location).Name, t.Name)
 			p.moveTo(g, t)
 		}
-		g.Mutex.Unlock()
 	}
 }
 
@@ -53,6 +49,7 @@ func (p *Person) checkKilled(g *MapGraph) bool {
 }
 
 func (p *Person) moveTo(g *MapGraph, t *PositionedNode) {
+	g.Mutex.RLock()
 	pn := g.Node(p.Location)
 
 	// Because Go actually doesn't implement this in the standard library
@@ -63,6 +60,8 @@ func (p *Person) moveTo(g *MapGraph, t *PositionedNode) {
 		}
 		i++
 	}
+	g.Mutex.RUnlock()
+	g.Mutex.Lock()
 	// Delete from old vertex
 	if len(pn.People) > 1 {
 		pn.People = append(pn.People[:i], pn.People[i+1:]...)
@@ -74,6 +73,7 @@ func (p *Person) moveTo(g *MapGraph, t *PositionedNode) {
 	t.People = append(t.People, p)
 
 	g.Changed = true
+	g.Mutex.Unlock()
 }
 
 func (z *Zombie) Unlive(g *MapGraph) {
@@ -81,26 +81,24 @@ func (z *Zombie) Unlive(g *MapGraph) {
 	pause(rand.Intn(2000), time.Millisecond)
 	tick := time.NewTicker(500 * time.Millisecond)
 	for _ = range tick.C {
-		g.Mutex.Lock()
-		fmt.Println("Acquired lock")
 		if z.checkKilled(g) {
-			g.Mutex.Unlock()
 			return
 		}
-		fmt.Println("Not killed")
 
 		if len(g.Node(z.Location).People) == 0 {
 			t := z.nearestPersonTraverseFirstStep(g)
-			fmt.Println("acquired target")
+			pause(int(g.Edge(g.Node(z.Location), t).Weight())+t.Weight, time.Second)
+			if z.checkKilled(g) {
+				return
+			}
 			g.Log <- fmt.Sprintf("ZOMBIE moves from %s to %s", g.Node(z.Location).Name, t.Name)
 			z.moveTo(g, t)
 		}
-		g.Mutex.Unlock()
-		fmt.Println("Released lock")
 	}
 }
 
 func (z *Zombie) moveTo(g *MapGraph, t *PositionedNode) {
+	g.Mutex.RLock()
 	pn := g.Node(z.Location)
 
 	// Because Go actually doesn't implement this in the standard library
@@ -111,6 +109,8 @@ func (z *Zombie) moveTo(g *MapGraph, t *PositionedNode) {
 		}
 		i++
 	}
+	g.Mutex.RUnlock()
+	g.Mutex.Lock()
 	// Delete from old vertex
 	if len(pn.Zombies) > 1 {
 		pn.Zombies = append(pn.Zombies[:i], pn.Zombies[i+1:]...)
@@ -122,15 +122,17 @@ func (z *Zombie) moveTo(g *MapGraph, t *PositionedNode) {
 	t.Zombies = append(t.Zombies, z)
 
 	g.Changed = true
+	g.Mutex.Unlock()
 }
 
 // Returns the first vertex on a path towards the nearest person by traversal (Dijkstra's Shortest Path)
 func (z *Zombie) nearestPersonTraverseFirstStep(g *MapGraph) *PositionedNode {
+	g.Mutex.RLock()
 	unvisited := g.Nodes()
 	distance := make(map[int]uint)
 	previous := make(map[int]int)
-	for i := range distance {
-		distance[i] = ^uint(0)
+	for _, v := range unvisited {
+		distance[v.ID()] = ^uint(0)
 	}
 
 	distance[z.Location] = 0
@@ -138,7 +140,7 @@ func (z *Zombie) nearestPersonTraverseFirstStep(g *MapGraph) *PositionedNode {
 	// Find the nearest person
 	var nearestPerson *PositionedNode
 	for len(unvisited) > 0 {
-		min := ^uint(0)
+		min := ^uint(0) // uint max value
 		var minvI int
 		for i, v := range unvisited {
 			if distance[v.ID()] < min {
@@ -167,6 +169,7 @@ func (z *Zombie) nearestPersonTraverseFirstStep(g *MapGraph) *PositionedNode {
 	for previous[ret.ID()] != z.Location {
 		ret = g.Node(previous[ret.ID()])
 	}
+	g.Mutex.RUnlock()
 	return ret
 }
 

@@ -76,13 +76,13 @@ type MapGraph struct {
 
 	Log chan string
 
-	Mutex *sync.Mutex
+	Mutex *sync.RWMutex
 
 	Changed bool
 }
 
 func NewMapGraph(atlas *text.Atlas, bounds pixel.Rect, vertexSize float64) *MapGraph {
-	return &MapGraph{simple.NewUndirectedGraph(0, -1), atlas, bounds, vertexSize, 0, make(chan string, 20), &sync.Mutex{}, true}
+	return &MapGraph{simple.NewUndirectedGraph(0, -1), atlas, bounds, vertexSize, 0, make(chan string, 20), &sync.RWMutex{}, true}
 }
 
 func (g *MapGraph) NewPositionedNode(name string, x float64, y float64, w int) *PositionedNode {
@@ -204,34 +204,33 @@ func (g *MapGraph) AddPerson(job Profession, vertex *PositionedNode) {
 }
 
 func (g *MapGraph) AddNewZombie(vertex *PositionedNode) {
-	g.Mutex.Lock()
 	z := NewZombie(g.entities, vertex.ID())
+	g.Mutex.Lock()
 	vertex.Zombies = append(vertex.Zombies, z)
 	g.entities++
 	g.Changed = true
-
-	go z.Unlive(g)
-
 	g.Mutex.Unlock()
+	go z.Unlive(g)
 }
 
 func (g *MapGraph) InfectPerson(p *Person) {
-	g.Mutex.Lock()
 
 	z := NewZombieFromPerson(p)
 
 	p.Kill <- "INFECTED by ZOMBIE"
 
+	g.Mutex.Lock()
 	n := g.Node(p.Location)
 	n.Zombies = append(n.Zombies, z)
 	g.Changed = true
+	g.Mutex.Unlock()
 
 	go z.Unlive(g)
 
-	g.Mutex.Unlock()
 }
 
 func (g *MapGraph) RemovePerson(p *Person) {
+	g.Mutex.RLock()
 	n := g.Node(p.Location)
 	i := 0
 	for _, v := range n.People {
@@ -240,15 +239,18 @@ func (g *MapGraph) RemovePerson(p *Person) {
 		}
 		i++
 	}
+	g.Mutex.RUnlock()
+	g.Mutex.Lock()
 	if len(n.People) > 1 {
 		n.People = append(n.People[:i], n.People[i+1:]...)
 	} else {
 		n.People = n.People[:0]
 	}
-
+	g.Mutex.Unlock()
 }
 
 func (g *MapGraph) RemoveZombie(z *Zombie) {
+	g.Mutex.RLock()
 	n := g.Node(z.Location)
 	i := 0
 	for _, v := range n.Zombies {
@@ -257,12 +259,14 @@ func (g *MapGraph) RemoveZombie(z *Zombie) {
 		}
 		i++
 	}
+	g.Mutex.RUnlock()
+	g.Mutex.Lock()
 	if len(n.Zombies) > 1 {
 		n.Zombies = append(n.Zombies[:i], n.Zombies[i+1:]...)
 	} else {
 		n.Zombies = n.Zombies[:0]
 	}
-
+	g.Mutex.Unlock()
 }
 func (g *MapGraph) StartEntities() {
 	for _, v := range g.Nodes() {
