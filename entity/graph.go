@@ -246,6 +246,10 @@ func (g *MapGraph) RemovePerson(p *Person) {
 		}
 		i++
 	}
+	if i == len(n.People) {
+		g.Mutex.Unlock()
+		return
+	}
 
 	close(p.Kill)
 	close(p.Damage)

@@ -15,6 +15,7 @@ func (p *Person) Live(g *MapGraph) {
 	p.Damage = make(chan DamageMessage, 100)
 	pause(rand.Intn(2000), time.Millisecond)
 	tick := time.NewTicker(500 * time.Millisecond)
+	defer g.RemovePerson(p)
 	for _ = range tick.C {
 		if p.checkKilled(g) {
 			return
